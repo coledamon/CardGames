@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 
-namespace Blackjack
+namespace CardGames
 {
-    public class Rank
+    public class Suit
     {
-        int rank;
+        int suit;
 
         static int TWO = 2;
         static int THREE = 3;
@@ -23,7 +22,6 @@ namespace Blackjack
 
         public Rank(int card)
         {
-
             rank = card;
         }
 
@@ -109,13 +107,13 @@ namespace Blackjack
                 case 14:
                     return "ACE";
                 default:
-                    return "?";
+                    return "Invalid";
             }
         }
 
         public string ToString()
         {
-            return;
+
         }
 
         static void Main()
@@ -141,5 +139,6 @@ namespace Blackjack
                 Console.WriteLine(card.rank);
             }
         }
-   }
+    }
 }
+
