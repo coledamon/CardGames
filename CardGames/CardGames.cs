@@ -1,11 +1,14 @@
 using System;
 
-public class CardGames
+namespace CardGames
 {
-	/*
-	public static int CompareTo(Rank rankObject, Rank otherRankObject)
-	{
-		//if(rankObject.RANK
-	}
-    */
+    public class CardGames
+    {
+        /*
+	    public static int CompareTo(Rank rankObject, Rank otherRankObject)
+	    {
+		    //if(rankObject.RANK
+	    }
+        */
+    }
 }

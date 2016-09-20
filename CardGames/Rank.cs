@@ -115,9 +115,9 @@ namespace Blackjack
 
         public string ToString()
         {
-            return;
+            return "";
         }
-
+        
         static void Main()
         {
             List<Rank> ranks = new List<Rank>();
@@ -135,7 +135,7 @@ namespace Blackjack
             ranks.Add(new Rank(QUEEN));
             ranks.Add(new Rank(KING));
             ranks.Add(new Rank(ACE));
-
+            
             foreach (Rank card in ranks)
             {
                 Console.WriteLine(card.rank);

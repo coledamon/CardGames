@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CardGames
 {
@@ -6,32 +7,24 @@ namespace CardGames
     {
         int suit;
 
-        static int TWO = 2;
-        static int THREE = 3;
-        static int FOUR = 4;
-        static int FIVE = 5;
-        static int SIX = 6;
-        static int SEVEN = 7;
-        static int EIGHT = 8;
-        static int NINE = 9;
-        static int TEN = 10;
-        static int JACK = 11;
-        static int QUEEN = 12;
-        static int KING = 13;
-        static int ACE = 14;
+        static int CLUBS = 1;
+        static int DIAMONDS = 2;
+        static int HEARTS = 3;
+        static int SPADES = 4;
+        static int VALUES; //not sure what values is supposed to be set to
 
-        public Rank(int card)
+        public Suit(int card)
         {
-            rank = card;
+            suit = card;
         }
 
-        public int CompareTo(Rank OtherRankObject)
+        public int CompareTo(Suit OtherSuitObject)
         {
-            if (this.rank == OtherRankObject.rank)
+            if (this.suit == OtherSuitObject.suit)
             {
                 return 0;
             }
-            else if (this.rank < OtherRankObject.rank)
+            else if (this.suit < OtherSuitObject.suit)
             {
                 return -1;
             }
@@ -41,36 +34,18 @@ namespace CardGames
             }
         }
 
-        public string GetSymbol(Rank rank)
+        public string GetSymbol()
         {
-            switch (this.rank)
+            switch (this.suit)
             {
+                case 1:
+                    return "♣";
                 case 2:
-                    return "2";
+                    return "♦";
                 case 3:
-                    return "3";
+                    return "♥";
                 case 4:
-                    return "4";
-                case 5:
-                    return "5";
-                case 6:
-                    return "6";
-                case 7:
-                    return "7";
-                case 8:
-                    return "8";
-                case 9:
-                    return "9";
-                case 10:
-                    return "10";
-                case 11:
-                    return "J";
-                case 12:
-                    return "Q";
-                case 13:
-                    return "K";
-                case 14:
-                    return "A";
+                    return "♠";
                 default:
                     return "?";
             }
@@ -78,67 +53,40 @@ namespace CardGames
 
         public string GetName()
         {
-            switch (this.rank)
+            switch (this.suit)
             {
+                case 1:
+                    return "CLUBS";
                 case 2:
-                    return "TWO";
+                    return "DIAMONDS";
                 case 3:
-                    return "THREE";
+                    return "HEARTS";
                 case 4:
-                    return "FOUR";
-                case 5:
-                    return "FIVE";
-                case 6:
-                    return "SIX";
-                case 7:
-                    return "SEVEN";
-                case 8:
-                    return "EIGHT";
-                case 9:
-                    return "NINE";
-                case 10:
-                    return "TEN";
-                case 11:
-                    return "JACK";
-                case 12:
-                    return "QUEEN";
-                case 13:
-                    return "KING";
-                case 14:
-                    return "ACE";
+                    return "SPADES";
                 default:
-                    return "Invalid";
+                    return "?";
             }
         }
 
         public string ToString()
         {
-
+            return "";
         }
-
+        /*
         static void Main()
         {
-            List<Rank> ranks = new List<Rank>();
+            List<Suit> suits = new List<Suit>();
 
-            ranks.Add(new Rank(TWO));
-            ranks.Add(new Rank(THREE));
-            ranks.Add(new Rank(FOUR));
-            ranks.Add(new Rank(FIVE));
-            ranks.Add(new Rank(SIX));
-            ranks.Add(new Rank(SEVEN));
-            ranks.Add(new Rank(EIGHT));
-            ranks.Add(new Rank(NINE));
-            ranks.Add(new Rank(TEN));
-            ranks.Add(new Rank(JACK));
-            ranks.Add(new Rank(QUEEN));
-            ranks.Add(new Rank(KING));
-            ranks.Add(new Rank(ACE));
+            suits.Add(new Suit(CLUBS));
+            suits.Add(new Suit(DIAMONDS));
+            suits.Add(new Suit(HEARTS));
+            suits.Add(new Suit(SPADES));
 
-            foreach (Rank card in ranks)
+            foreach (Suit card in suits)
             {
-                Console.WriteLine(card.rank);
+                Console.WriteLine(card.suit);
             }
-        }
+        }*/
     }
 }
 

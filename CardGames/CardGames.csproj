@@ -46,7 +46,7 @@
     <Compile Include="CardGames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rank.cs" />
-    <Compile Include="Suite.cs" />
+    <Compile Include="Suit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
