@@ -5,35 +5,42 @@ namespace Blackjack
 {
     public class Rank
     {
-        int rank;
+        string rankName;
+        int value;
 
-        static int TWO = 2;
-        static int THREE = 3;
-        static int FOUR = 4;
-        static int FIVE = 5;
-        static int SIX = 6;
-        static int SEVEN = 7;
-        static int EIGHT = 8;
-        static int NINE = 9;
-        static int TEN = 10;
-        static int JACK = 11;
-        static int QUEEN = 12;
-        static int KING = 13;
-        static int ACE = 14;
+        static Rank TWO = new Rank("TWO", 2);
+        static Rank THREE = new Rank("THREE", 3);
+        static Rank FOUR = new Rank("FOUR", 4);
+        static Rank FIVE = new Rank("FIVE", 5);
+        static Rank SIX = new Rank("SIX", 6);
+        static Rank SEVEN = new Rank("SEVEN", 7);
+        static Rank EIGHT = new Rank("EIGHT", 8);
+        static Rank NINE = new Rank("NINE", 9);
+        static Rank TEN = new Rank("TEN", 10);
+        static Rank JACK = new Rank("JACK", 11);
+        static Rank QUEEN = new Rank("QUEEN", 12);
+        static Rank KING = new Rank("KING", 13);
+        static Rank ACE = new Rank("ACE", 14);
 
-        public Rank(int card)
+        static List<Rank> VALUES = new List<Rank>()
         {
+            TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
+        };
 
-            rank = card;
+
+        public Rank(string name, int rank)
+        {
+            rankName = name;
+            value = rank;
         }
 
         public int CompareTo(Rank OtherRankObject)
         {
-            if (this.rank == OtherRankObject.rank)
+            if (this.value == OtherRankObject.value)
             {
                 return 0;
             }
-            else if (this.rank < OtherRankObject.rank)
+            else if (this.value < OtherRankObject.value)
             {
                 return -1;
             }
@@ -43,103 +50,34 @@ namespace Blackjack
             }
         }
 
-        public string GetSymbol(Rank rank)
+        public string GetSymbol()
         {
-            switch (this.rank)
+            if (this.value < 11)
             {
-                case 2:
-                    return "2";
-                case 3:
-                    return "3";
-                case 4:
-                    return "4";
-                case 5:
-                    return "5";
-                case 6:
-                    return "6";
-                case 7:
-                    return "7";
-                case 8:
-                    return "8";
-                case 9:
-                    return "9";
-                case 10:
-                    return "10";
-                case 11:
+                return value.ToString();
+            }
+            else
+            {
+                if (value == 11)
                     return "J";
-                case 12:
+                else if (value == 12)
                     return "Q";
-                case 13:
+                else if (value == 13)
                     return "K";
-                case 14:
+                else
                     return "A";
-                default:
-                    return "?";
+
             }
         }
 
         public string GetName()
         {
-            switch (this.rank)
-            {
-                case 2:
-                    return "TWO";
-                case 3:
-                    return "THREE";
-                case 4:
-                    return "FOUR";
-                case 5:
-                    return "FIVE";
-                case 6:
-                    return "SIX";
-                case 7:
-                    return "SEVEN";
-                case 8:
-                    return "EIGHT";
-                case 9:
-                    return "NINE";
-                case 10:
-                    return "TEN";
-                case 11:
-                    return "JACK";
-                case 12:
-                    return "QUEEN";
-                case 13:
-                    return "KING";
-                case 14:
-                    return "ACE";
-                default:
-                    return "?";
-            }
+            return rankName;
         }
 
         public string ToString()
         {
-            return "";
+            return rankName;
         }
-        
-        static void Main()
-        {
-            List<Rank> ranks = new List<Rank>();
-
-            ranks.Add(new Rank(TWO));
-            ranks.Add(new Rank(THREE));
-            ranks.Add(new Rank(FOUR));
-            ranks.Add(new Rank(FIVE));
-            ranks.Add(new Rank(SIX));
-            ranks.Add(new Rank(SEVEN));
-            ranks.Add(new Rank(EIGHT));
-            ranks.Add(new Rank(NINE));
-            ranks.Add(new Rank(TEN));
-            ranks.Add(new Rank(JACK));
-            ranks.Add(new Rank(QUEEN));
-            ranks.Add(new Rank(KING));
-            ranks.Add(new Rank(ACE));
-            
-            foreach (Rank card in ranks)
-            {
-                Console.WriteLine(card.rank);
-            }
-        }
-   }
+    }
 }

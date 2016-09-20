@@ -7,11 +7,14 @@ namespace CardGames
     {
         int suit;
 
-        static int CLUBS = 1;
-        static int DIAMONDS = 2;
-        static int HEARTS = 3;
-        static int SPADES = 4;
-        static int VALUES; //not sure what values is supposed to be set to
+        static Suit CLUBS = new Suit(1);
+        static Suit DIAMONDS = new Suit(2);
+        static Suit HEARTS = new Suit(3);
+        static Suit SPADES = new Suit(4);
+        List<Suit> VALUES = new List<Suit>()
+        {
+            CLUBS, DIAMONDS, HEARTS, SPADES
+        };
 
         public Suit(int card)
         {
@@ -70,23 +73,20 @@ namespace CardGames
 
         public string ToString()
         {
-            return "";
-        }
-        /*
-        static void Main()
-        {
-            List<Suit> suits = new List<Suit>();
-
-            suits.Add(new Suit(CLUBS));
-            suits.Add(new Suit(DIAMONDS));
-            suits.Add(new Suit(HEARTS));
-            suits.Add(new Suit(SPADES));
-
-            foreach (Suit card in suits)
+            switch (this.suit)
             {
-                Console.WriteLine(card.suit);
+                case 1:
+                    return "CLUBS";
+                case 2:
+                    return "DIAMONDS";
+                case 3:
+                    return "HEARTS";
+                case 4:
+                    return "SPADES";
+                default:
+                    return "?";
             }
-        }*/
+        }
     }
 }
 
