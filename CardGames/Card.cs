@@ -5,8 +5,8 @@ namespace CardGames
 {
     public class Card
     {
-        Suit cardSuit = new Suit();
-        Rank cardRank = new Rank();
+        Suit cardSuit;
+        Rank cardRank;
 
         public Card(Suit suit, Rank rank)
         {
@@ -16,15 +16,15 @@ namespace CardGames
 
         public int CompareTo(Card OtherCardObject)
         {
-            if (this.rank == OtherRankObject.rank && this.cardSuit == OtherCardObject.suit)
+            if (this.cardRank.CompareTo(OtherCardObject.cardRank) == 0 &&  this.cardSuit.CompareTo(OtherCardObject.cardSuit) == 0)
             {
                 return 0;
             }
-            else if(this.cardRank == OtherCardObject.cardRank && this.cardSuit < OtherCardObject.cardSuit)
+            else if(this.cardRank.CompareTo(OtherCardObject.cardRank) == 0 && this.cardSuit.CompareTo(OtherCardObject.cardSuit) == -1)
             {
                 return -1;
             }
-            else if (this.rank < OtherRankObject.rank)
+            else if (this.cardRank.CompareTo(OtherCardObject.cardRank) == -1)
             {
                 return -1;
             }

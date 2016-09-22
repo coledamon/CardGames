@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGames
 {
     public class Deck
     {
         List<Card> usedDeck = new List<Card>();
+        List<Card> deckOfCards = new List<Card>();
 
         public Deck()
         {
-            List<Card> deckOfCards = new List<Card>();
+            //List<Card> deckOfCards = new List<Card>();
         }
 
         public void AddCard(Card card)
@@ -19,9 +21,9 @@ namespace CardGames
         //removed () from first
         public Card DealOne()
         {
-            usedDeck.Add(deckOfCards.First);
+            usedDeck.Add(deckOfCards.First());
             deckOfCards.RemoveAt(0);
-            return deckOfCards.First;
+            return deckOfCards.First();
         }
 
         public int GetDeckSize()
@@ -55,7 +57,10 @@ namespace CardGames
 
         public void RestoreDeck()
         {
-            deckOfCards = deckOfCards.Concat(usedDeck);
+            foreach(var cards in usedDeck)
+            {
+                deckOfCards.Add(cards);
+            }
         }
     }
 }

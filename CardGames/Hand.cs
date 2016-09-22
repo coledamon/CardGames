@@ -10,24 +10,29 @@ namespace CardGames
 
         public void AddCard(Card card)
         {
-            card.DealOne();
+            card.;
             usedCards.Add(card.DealOne());
         }
 
-        public abstract int CompareTo(Hand OtherHandObject)
+        //public abstract int CompareTo(Hand OtherHandObject)
+        //{
+        //    if (this == OtherHandObject)
+        //    {
+        //        return 0;
+        //    }
+        //    else if (this < OtherRankObject)
+        //    {
+        //        return -1;
+        //    }
+        //    else
+        //    {
+        //        return 1;
+        //    }
+        //}
+
+        public bool ContainsCard(Card card)
         {
-            if (this == OtherHandObject)
-            {
-                return 0;
-            }
-            else if (this < OtherRankObject)
-            {
-                return -1;
-            }
-            else
-            {
-                return 1;
-            }
+
         }
 
     }
