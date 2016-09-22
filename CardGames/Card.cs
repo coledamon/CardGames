@@ -36,17 +36,17 @@ namespace CardGames
 
         public Rank GetRank()
         {
-
+            this.cardRank;
         }
 
         public Suit GetSuit()
         {
-
+            this.cardSuit;
         }
 
         public String ToString()
         {
-
+            return this.cardRank + " of " + this.cardSuit;
         }
     }
 }
