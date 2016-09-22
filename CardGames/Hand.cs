@@ -10,7 +10,6 @@ namespace CardGames
 
         public void AddCard(Card card)
         {
-            card.;
             usedCards.Add(card.DealOne());
         }
 
