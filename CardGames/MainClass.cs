@@ -15,6 +15,8 @@ namespace CardGames
             Card c4 = new Card(Suit.CLUBS, Rank.JACK);
             Card c5 = new Card(Suit.DIAMONDS, Rank.ACE);
 
+            Card c6 = new Card(Suit.HEARTS, Rank.QUEEN);
+
             // testing ToString functionality
             Console.WriteLine(c1.GetRank());
             Console.WriteLine(c1.GetSuit());
@@ -38,6 +40,9 @@ namespace CardGames
             Console.WriteLine("Comparing {0} and {1}: ---> {2}", c3, c1, c3.CompareTo(c1));
             Console.WriteLine("Comparing {0} and {1}: ---> {2}", c1, c4, c1.CompareTo(c4));
             Console.WriteLine("Comparing {0} and {1}: ---> {2}", c4, c5, c4.CompareTo(c5));
+
+            // testing the AddCard in Hand
+            Hand h1 = Hand.AddCard(c6);
 
             // play a CardCountGame
             //CardCountGame.PlayGame();

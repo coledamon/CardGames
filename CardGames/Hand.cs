@@ -5,11 +5,11 @@ namespace CardGames
 {
     public abstract class Hand
     {
-        List<Hand> cardsInHand = new List<Hand>();
-        List<Card> usedCards = new List<Card>();
-        Deck cardsInDeck;
+        private static List<Hand> cardsInHand = new List<Hand>();
+        private static List<Card> usedCards = new List<Card>();
+        private static Deck cardsInDeck = new Deck();
 
-        public void AddCard(Card card)
+        public static void AddCard(Card card)
         {
             usedCards.Add(cardsInDeck.DealOne());
         }
