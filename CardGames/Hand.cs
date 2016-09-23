@@ -1,39 +1,91 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGames
 {
     public abstract class Hand
     {
-        private static List<Hand> cardsInHand = new List<Hand>();
+        //private static List<String> cardsInHand = new List<String>();
+        private static List<Card> cardsInHand = new List<Card>();
         private static List<Card> usedCards = new List<Card>();
-        private static Deck cardsInDeck = new Deck();
+        //private static Deck cardsInDeck = new Deck();
+        int indexOfCardInHand = 0;
 
-        public static void AddCard(Card card)
+        public void AddCard(Card card)
         {
-            usedCards.Add(cardsInDeck.DealOne());
+            //cardsInHand.Add(card.ToString());
+            cardsInHand.Add(card);
         }
 
-        //public abstract int CompareTo(Hand OtherHandObject)
-        //{
-        //    if (this == OtherHandObject)
-        //    {
-        //        return 0;
-        //    }
-        //    else if (this < OtherRankObject)
-        //    {
-        //        return -1;
-        //    }
-        //    else
-        //    {
-        //        return 1;
-        //    }
-        //}
+        public abstract int CompareTo(Hand OtherHandObject);
 
-        //public bool ContainsCard(Card card)
-        //{
+        public bool ContainsCard(Card card)
+        {
+            //if (cardsInHand.Contains(card.ToString()))
+            if (cardsInHand.Contains(card))
+                return true;
+            else
+                return false;
+        }
 
-        //}
+        public void DiscardHand()
+        {
+            cardsInHand.Clear();
+        }
 
+        public int FindCard(Card card)
+        {
+            //if (cardsInHand.Contains(card.ToString()))
+            //    return cardsInHand.IndexOf(card.ToString());
+            foreach (Card cards in cardsInHand)
+            {
+                if (cards.Equals(card))
+                {
+                    return indexOfCardInHand;
+                }
+                else
+                    indexOfCardInHand++;
+            }
+            return -1;
+        }
+        
+        public Card GetCardAtIndex(int index)
+        {
+            return cardsInHand[index];
+        }
+
+        public int GetNumberOfCards()
+        {
+            return cardsInHand.Count;
+        }
+
+        public bool IsEmpty()
+        {
+            if (!cardsInHand.Any())
+                return true;
+            else
+                return false;
+        }
+
+        public Card RemoveCard(Card card)
+        {
+            cardsInHand.RemoveAt(FindCard(card));
+            return GetCardAtIndex(FindCard(card));
+        }
+
+        //public Card RemoveCard(int card)
+
+        public abstract int EvaluateHand();
+
+        string toStringOutput = "";
+        public string ToString()
+        {
+            foreach (Card cards in cardsInHand)
+            {
+                toStringOutput = toStringOutput + cards + "\n";
+            }
+            return toStringOutput;
+        }
     }
 }
