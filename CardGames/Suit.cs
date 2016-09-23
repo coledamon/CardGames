@@ -11,8 +11,8 @@ namespace CardGames
         public static readonly Suit DIAMONDS;
         public static readonly Suit HEARTS;
         public static readonly Suit SPADES;
-        //public static readonly List<Suit> VALUES;
-        public static List<Suit> VALUES = new List<Suit>() { CLUBS, DIAMONDS, HEARTS, SPADES };
+
+        public static readonly List<Suit> VALUES;
 
         static Suit()
         {
@@ -20,7 +20,7 @@ namespace CardGames
             DIAMONDS = new Suit(2);
             HEARTS = new Suit(3);
             SPADES = new Suit(4);
-            //VALUES = new List<Suit>() { CLUBS, DIAMONDS, HEARTS, SPADES };
+            VALUES = new List<Suit>() { CLUBS, DIAMONDS, HEARTS, SPADES };
         }
      
         public Suit(int card)
@@ -49,13 +49,13 @@ namespace CardGames
             switch (this.value)
             {
                 case 1:
-                    return "a"; //\u2663
+                    return "♣"; //\u2663
                 case 2:
-                    return "b"; //u2666
+                    return "♦"; //\u2666
                 case 3:
-                    return "c"; //\u2665
+                    return "♥"; //\u2665
                 case 4:
-                    return "d"; //\u2660
+                    return "♠"; //\u2660
                 default:
                     return "?";
             }

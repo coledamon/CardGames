@@ -27,7 +27,7 @@ namespace CardGames
 
             // printing all suits
             foreach (Suit s in Suit.VALUES)
-                Console.WriteLine(s);
+                Console.WriteLine(s.GetSymbol());
             Console.WriteLine("Number of suits: " + Suit.VALUES.Count);
 
 

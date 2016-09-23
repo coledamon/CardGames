@@ -22,7 +22,9 @@ namespace CardGames
         public static readonly Rank KING;
         public static readonly Rank ACE;
 
-        public static List<Rank> VALUES = new List<Rank>() { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE };
+        public static readonly List<Rank> VALUES;
+
+        //public static List<Rank> VALUES = new List<Rank>() { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE };
 
         static Rank()
         {
@@ -39,7 +41,10 @@ namespace CardGames
             QUEEN = new Rank("QUEEN", 12);
             KING = new Rank("KING", 13);
             ACE = new Rank("ACE", 14);
-        }
+
+            //public static List<Rank> VALUES = new List<Rank>() { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE };
+            VALUES = new List<Rank>() { TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE };
+    }
 
         public Rank(string name, int rank)
         {
