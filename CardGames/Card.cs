@@ -5,8 +5,8 @@ namespace CardGames
 {
     public class Card
     {
-        Suit cardSuit;
-        Rank cardRank;
+        Suit cardSuit; //Suit
+        Rank cardRank; //Rank
 
         public Card(Suit suit, Rank rank)
         {
@@ -36,23 +36,15 @@ namespace CardGames
 
         public Rank GetRank()
         {
-<<<<<<< HEAD
-            this.cardRank;
-=======
             return this.cardRank;
->>>>>>> origin/master
         }
 
         public Suit GetSuit()
         {
-<<<<<<< HEAD
-            this.cardSuit;
-=======
             return this.cardSuit;
->>>>>>> origin/master
         }
 
-        public String ToString()
+        public override String ToString()
         {
             return this.cardRank + " of " + this.cardSuit;
         }

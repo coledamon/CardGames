@@ -6,11 +6,12 @@ namespace CardGames
     public abstract class Hand
     {
         List<Hand> cardsInHand = new List<Hand>();
-        List<Hand> usedCards = new List<Hand>();
+        List<Card> usedCards = new List<Card>();
+        Deck cardsInDeck;
 
         public void AddCard(Card card)
         {
-            usedCards.Add(card.DealOne());
+            usedCards.Add(cardsInDeck.DealOne());
         }
 
         //public abstract int CompareTo(Hand OtherHandObject)
@@ -29,10 +30,10 @@ namespace CardGames
         //    }
         //}
 
-        public bool ContainsCard(Card card)
-        {
+        //public bool ContainsCard(Card card)
+        //{
 
-        }
+        //}
 
     }
 }

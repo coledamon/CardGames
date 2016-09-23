@@ -5,29 +5,36 @@ namespace CardGames
 {
     public class Suit
     {
-        int suit;
+        int value;
 
-        static Suit CLUBS = new Suit(1);
-        static Suit DIAMONDS = new Suit(2);
-        static Suit HEARTS = new Suit(3);
-        static Suit SPADES = new Suit(4);
-        List<Suit> VALUES = new List<Suit>()
+        public static readonly Suit CLUBS;
+        public static readonly Suit DIAMONDS;
+        public static readonly Suit HEARTS;
+        public static readonly Suit SPADES;
+        //public static readonly List<Suit> VALUES;
+        public static List<Suit> VALUES = new List<Suit>() { CLUBS, DIAMONDS, HEARTS, SPADES };
+
+        static Suit()
         {
-            CLUBS, DIAMONDS, HEARTS, SPADES
-        };
-
+            CLUBS = new Suit(1);
+            DIAMONDS = new Suit(2);
+            HEARTS = new Suit(3);
+            SPADES = new Suit(4);
+            //VALUES = new List<Suit>() { CLUBS, DIAMONDS, HEARTS, SPADES };
+        }
+     
         public Suit(int card)
         {
-            suit = card;
+            this.value = card;
         }
 
         public int CompareTo(Suit OtherSuitObject)
         {
-            if (this.suit == OtherSuitObject.suit)
+            if (this.value == OtherSuitObject.value)
             {
                 return 0;
             }
-            else if (this.suit < OtherSuitObject.suit)
+            else if (this.value < OtherSuitObject.value)
             {
                 return -1;
             }
@@ -39,16 +46,16 @@ namespace CardGames
 
         public string GetSymbol()
         {
-            switch (this.suit)
+            switch (this.value)
             {
                 case 1:
-                    return "♣";
+                    return "a"; //\u2663
                 case 2:
-                    return "♦";
+                    return "b"; //u2666
                 case 3:
-                    return "♥";
+                    return "c"; //\u2665
                 case 4:
-                    return "♠";
+                    return "d"; //\u2660
                 default:
                     return "?";
             }
@@ -56,7 +63,7 @@ namespace CardGames
 
         public string GetName()
         {
-            switch (this.suit)
+            switch (this.value)
             {
                 case 1:
                     return "CLUBS";
@@ -71,9 +78,9 @@ namespace CardGames
             }
         }
 
-        public string ToString()
+        public override string ToString()
         {
-            switch (this.suit)
+            switch (this.value)
             {
                 case 1:
                     return "CLUBS";
