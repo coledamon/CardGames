@@ -10,9 +10,6 @@ namespace CardGames
 		    //if(rankObject.RANK
 	    }
         */
-        static void Main(string[] args)
-        {
-            ;
-        }
+
     }
 }
