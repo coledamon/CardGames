@@ -7,6 +7,7 @@ namespace CardGames
     {
         Suit cardSuit; //Suit
         Rank cardRank; //Rank
+        //string cardRank;
 
         public Card(Suit suit, Rank rank)
         {
@@ -44,9 +45,9 @@ namespace CardGames
             return this.cardSuit;
         }
 
-        public override String ToString()
+        public override string ToString()
         {
-            return this.cardRank + " of " + this.cardSuit;
+            return this.cardRank.ToString() + this.cardSuit.ToString();
         }
     }
 }

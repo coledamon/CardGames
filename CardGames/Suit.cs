@@ -80,19 +80,22 @@ namespace CardGames
 
         public override string ToString()
         {
-            switch (this.value)
-            {
-                case 1:
-                    return "CLUBS";
-                case 2:
-                    return "DIAMONDS";
-                case 3:
-                    return "HEARTS";
-                case 4:
-                    return "SPADES";
-                default:
-                    return "?";
-            }
+            //switch (this.value)
+            //{
+            //    case 1:
+            //        return "CLUBS";
+            //    case 2:
+            //        return "DIAMONDS";
+            //    case 3:
+            //        return "HEARTS";
+            //    case 4:
+            //        return "SPADES";
+            //    default:
+            //        return "?";
+            //}
+
+            return this.GetSymbol();
+
         }
     }
 }

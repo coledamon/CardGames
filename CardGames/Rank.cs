@@ -95,7 +95,7 @@ namespace CardGames
 
         public override string ToString()
         {
-            return this.rankName;
+            return this.GetSymbol(); //this.rankName;
         }
     }
 }

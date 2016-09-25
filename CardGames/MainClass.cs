@@ -32,8 +32,6 @@ namespace CardGames
                 Console.WriteLine(s.GetSymbol());
             Console.WriteLine("Number of suits: " + Suit.VALUES.Count);
 
-
-
             // testing CompareTo functionality
             Console.WriteLine("Comparing {0} and {1}: ---> {2}", c1, c2, c1.CompareTo(c2));
             Console.WriteLine("Comparing {0} and {1}: ---> {2}", c1, c3, c1.CompareTo(c3));
@@ -42,7 +40,7 @@ namespace CardGames
             Console.WriteLine("Comparing {0} and {1}: ---> {2}", c4, c5, c4.CompareTo(c5));
 
             // testing the AddCard in Hand
-            Hand h1 = Hand.AddCard(c6);
+            //Hand h1 = Hand.AddCard(c6);
 
             // play a CardCountGame
             //CardCountGame.PlayGame();

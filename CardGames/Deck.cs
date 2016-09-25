@@ -7,28 +7,36 @@ namespace CardGames
     public class Deck
     {
         List<Card> usedDeck = new List<Card>();
-        List<Card> deckOfCards = new List<Card>();
+        List<Card> deckOfCards;
+        //Deck emptyDeck;
 
         public Deck()
-        {
-            //List<Card> deckOfCards = new List<Card>();
+        { //need to decide what to do with this. Instructions : There will be one constructor: Deck(), which creates an empty deck of cards.
+            deckOfCards = new List<Card>();
+            //emptyDeck = new Deck();
         }
 
         public void AddCard(Card card)
         {
             deckOfCards.Add(card);
         }
-        //removed () from first
+
         public Card DealOne()
         {
-            usedDeck.Add(deckOfCards.First());
+            Card dealtCard = deckOfCards.First();
+            usedDeck.Add(dealtCard);
             deckOfCards.RemoveAt(0);
-            return deckOfCards.First();
+            return dealtCard;
+        }
+
+        public int GetCardsRemaining()
+        {
+            return deckOfCards.Count;
         }
 
         public int GetDeckSize()
         {
-            return deckOfCards.Count;
+            return deckOfCards.Count + usedDeck.Count;
         }
 
         public bool isEmpty()
