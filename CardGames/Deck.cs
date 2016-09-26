@@ -8,6 +8,7 @@ namespace CardGames
     {
         List<Card> usedDeck = new List<Card>();
         List<Card> deckOfCards;
+        Card dealtCard;
         //Deck emptyDeck;
 
         public Deck()
@@ -23,10 +24,10 @@ namespace CardGames
 
         public Card DealOne()
         {
-            Card dealtCard = deckOfCards.First();
+            dealtCard = deckOfCards[0];
             usedDeck.Add(dealtCard);
             deckOfCards.RemoveAt(0);
-            return dealtCard;
+            return usedDeck.Last();
         }
 
         public int GetCardsRemaining()
@@ -49,8 +50,6 @@ namespace CardGames
 
         public void Shuffle()
         {
-            //var rng = new Random();
-            //List<Card> shuffledDeckOfCards = deckOfCards.OrderBy(item => rng.Next());
             int n = deckOfCards.Count;
             Random rng = new Random();
             while (n > 1)

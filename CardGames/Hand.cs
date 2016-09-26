@@ -7,7 +7,7 @@ namespace CardGames
     public abstract class Hand
     {
         //private static List<String> cardsInHand = new List<String>();
-        public static List<Card> cardsInHand = new List<Card>();
+        private static List<Card> cardsInHand = new List<Card>();
         public static List<Card> usedCards = new List<Card>();
         //private static Deck cardsInDeck = new Deck();
         int indexOfCardInHand = 0;
