@@ -48,6 +48,7 @@
     <Compile Include="CardGames.cs" />
     <Compile Include="CardCountHand.cs" />
     <Compile Include="CardCountGame.cs" />
+    <Compile Include="BlackJackGame.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="MainClass.cs" />
