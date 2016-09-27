@@ -48,6 +48,7 @@ namespace CardGames
         public static void PlayGame()
         {
             string playerInput = "";
+            dealer = new BlackJackHand();
 
             Console.WriteLine("Welcome to Blackjack!");
 
@@ -81,7 +82,6 @@ namespace CardGames
                     playerInput = Console.ReadLine();
                     playerScore = player.EvaluateHand();
                 }
-            //while (playerInput.ToLower()[0] == 'h' || playerScore <= 21);
 
             
                 if (playerScore > 21)
@@ -91,7 +91,7 @@ namespace CardGames
 
                 else
                 {
-                    dealer = new BlackJackHand();
+                    //dealer = new BlackJackHand();
 
                     dealer.cardsInHand.Add(deck.DealOne());
                     dealer.cardsInHand.Add(deck.DealOne());
@@ -141,10 +141,14 @@ namespace CardGames
                     }
                 }
             }
+
             deck.RestoreDeck();
             deck.Shuffle();
             player.DiscardHand();
-            dealer.DiscardHand();
+            if (!dealer.IsEmpty())
+            {
+                dealer.DiscardHand();
+            }
         }
     }
 }
