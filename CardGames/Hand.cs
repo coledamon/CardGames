@@ -6,16 +6,18 @@ namespace CardGames
 {
     public abstract class Hand
     {
-        //private static List<String> cardsInHand = new List<String>();
-        public static List<Card> cardsInHand = new List<Card>();
-        public static List<Card> usedCards = new List<Card>();
-        //public static Deck deckOfCards = new Deck();
-        //private static Deck cardsInDeck = new Deck();
+        public List<Card> cardsInHand;
+        public List<Card> usedCards = new List<Card>();
+
         int indexOfCardInHand = 0;
+
+        public Hand()
+        {
+            cardsInHand = new List<Card>();
+        }
 
         public void AddCard(Card card)
         {
-            //cardsInHand.Add(card.ToString());
             cardsInHand.Add(card);
         }
 
@@ -84,11 +86,11 @@ namespace CardGames
         public abstract int EvaluateHand();
 
         string toStringOutput = "";
-        public string ToString()
+        public override string ToString()
         {
             foreach (Card cards in cardsInHand)
             {
-                toStringOutput = toStringOutput + cards + "\n";
+                toStringOutput = toStringOutput + cards;
             }
             return toStringOutput;
         }

@@ -6,15 +6,14 @@ namespace CardGames
 {
     public class Deck
     {
-        List<Card> usedDeck = new List<Card>();
-        List<Card> deckOfCards;
-        Card dealtCard;
-        //Deck emptyDeck;
+        public static List<Card> usedDeck;
+        public static List<Card> deckOfCards;
+        public static Card dealtCard;
 
-        public Deck()
-        { //need to decide what to do with this. Instructions : There will be one constructor: Deck(), which creates an empty deck of cards.
+        static Deck()
+        {
             deckOfCards = new List<Card>();
-            //emptyDeck = new Deck();
+            usedDeck = new List<Card>();
         }
 
         public void AddCard(Card card)
@@ -27,7 +26,7 @@ namespace CardGames
             dealtCard = deckOfCards[0];
             usedDeck.Add(dealtCard);
             deckOfCards.RemoveAt(0);
-            return usedDeck.Last();
+            return dealtCard;
         }
 
         public int GetCardsRemaining()

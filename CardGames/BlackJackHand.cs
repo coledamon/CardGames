@@ -1,15 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGames
 {
     public class BlackJackHand : Hand
     {
+        public override int CompareTo(Hand OtherHandObject)
+        {
+            if (this.EvaluateHand() == OtherHandObject.EvaluateHand())
+                return 0;
+            else if (this.EvaluateHand() < OtherHandObject.EvaluateHand())
+                return -1;
+            else
+                return 1;
+        }
+
         public override int EvaluateHand()
         {
             int handTotal = 0;
 
-            foreach(Card card in cardsInHand)
+            for (int i = 0; i < this.GetNumberOfCards(); i++)
             {
+                Card card = this.GetCardAtIndex(i);
                 if (card.GetRank().ToString() == "1")
                     handTotal += 1;
                 else if (card.GetRank().ToString() == "2")
@@ -35,14 +48,16 @@ namespace CardGames
             }
             return handTotal;
         }
-        public override int CompareTo(Hand OtherHandObject)
+
+        string toStringOutput = "";
+        public override string ToString()
         {
-            if (this.EvaluateHand() == OtherHandObject.EvaluateHand())
-                return 0;
-            else if (this.EvaluateHand() < OtherHandObject.EvaluateHand())
-                return -1;
-            else
-                return 1;
+            foreach (Card cards in cardsInHand)
+            {
+                toStringOutput = toStringOutput + cards + " ";
+            }
+            return toStringOutput;
         }
+
     }
 }
