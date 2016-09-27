@@ -6,12 +6,17 @@ namespace CardGames
 {
     class BlackJackGame
     {
-        public static void PlayGame()
+        static BlackJackHand player;
+        static BlackJackHand dealer;
+        static Deck deck = new Deck();
+        public static int dealerScore = 0;
+        public static int playerScore = 0;
+        static string input = "";
+        //public static int i = 0;
+
+        static BlackJackGame()
         {
             List<Card> multDeck = new List<Card>();
-
-            BlackJackHand player = new BlackJackHand();
-            BlackJackHand dealer = new BlackJackHand();
 
             for (int x = 0; x < 6; x++)
             {
@@ -25,8 +30,6 @@ namespace CardGames
                 }
             }
 
-            Deck deck = new Deck();
-
             foreach (Card card in multDeck)
             {
                 deck.AddCard(card);
@@ -34,31 +37,146 @@ namespace CardGames
 
             deck.Shuffle();
 
+            player = new BlackJackHand();
+            //dealer = new BlackJackHand();
+
+            player.cardsInHand.Add(deck.DealOne());
+            player.cardsInHand.Add(deck.DealOne());
+            playerScore = player.EvaluateHand();
+
+        }
+
+        public static void PlayGame()
+        {
             Console.WriteLine("Welcome to Blackjack!");
+            foreach (Card card in player.cardsInHand)
+                Console.WriteLine("You have been dealt the {0}", card);
 
-            string input = "";
-            var score = 0;
-
-            player.AddCard(deck.DealOne());
-            player.AddCard(deck.DealOne());
-            score = player.EvaluateHand();
-            Console.WriteLine("You have been dealt the {0}", deck.DealOne());
-            do
+            if (player.EvaluateHand() <= 21 || input.ToLower()[0] == 'h')
             {
-                Console.WriteLine("You have been dealt the {0}", deck.DealOne());
-                Console.WriteLine("Hand score: {0}", score);
-                if (score > 21)
+                do
+                {
+                    Console.WriteLine("Hand score: {0}", playerScore);
+                    if (playerScore > 21)
+                    {
+                        Console.WriteLine("Bust!");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Hit or Stay (H/S)");
+                        input = Console.ReadLine();
+                        playerScore = player.EvaluateHand();
+                        if (input == "H" || input == "h" || input == "Hit" || input == "hit")
+                        {
+                            player.cardsInHand.Add(deck.DealOne());
+                            Console.WriteLine("You have been dealt the {0}", player.cardsInHand.Last());
+                            playerScore = player.EvaluateHand();
+                        }
+                        else
+                        {
+                            dealer = new BlackJackHand();
+
+                            dealer.cardsInHand.Add(deck.DealOne());
+                            dealer.cardsInHand.Add(deck.DealOne());
+                            dealerScore = dealer.EvaluateHand();
+
+                            foreach (Card card in dealer.cardsInHand)
+                                Console.WriteLine("You have been dealt the {0}", card);
+
+                            Console.WriteLine("Dealer score: {0}", dealerScore);
+                            if (dealerScore > 21)
+                            {
+                                Console.WriteLine("Bust!");
+                            }
+                            else
+                            {
+                                //score = dealer.EvaluateHand();
+                                if (dealerScore < 17)
+                                {
+                                    dealer.cardsInHand.Add(deck.DealOne());
+                                    Console.WriteLine("You have been dealt the {0}", dealer.cardsInHand.Last());
+                                    dealerScore = dealer.EvaluateHand();
+                                }
+                                else
+                                {
+                                    if (dealerScore > 21)
+                                    {
+                                        Console.WriteLine("Bust!");
+                                        Console.WriteLine("Player wins!");
+                                    }
+                                    else
+                                    {
+                                        if (dealer.CompareTo(player) == 0)
+                                        {
+                                            Console.WriteLine("Tie!");
+                                        }
+                                        else if (dealer.CompareTo(player) == 1)
+                                        {
+                                            Console.WriteLine("Dealer wins!");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Player wins!");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                while (input.ToLower()[0] == 'h');
+            }
+            else
+            {
+                dealer = new BlackJackHand();
+
+                dealer.cardsInHand.Add(deck.DealOne());
+                dealer.cardsInHand.Add(deck.DealOne());
+                dealerScore = dealer.EvaluateHand();
+
+                foreach (Card card in dealer.cardsInHand)
+                    Console.WriteLine("You have been dealt the {0}", card);
+
+                Console.WriteLine("Dealer score: {0}", dealerScore);
+                if (dealerScore > 21)
                 {
                     Console.WriteLine("Bust!");
-                    break;
                 }
-                Console.WriteLine("Hit or Stay (H/S)");
-                input = Console.ReadLine();
-                score = player.EvaluateHand();
-               
+                else
+                {
+                    //score = dealer.EvaluateHand();
+                    if (dealerScore < 17)
+                    {
+                        dealer.cardsInHand.Add(deck.DealOne());
+                        Console.WriteLine("You have been dealt the {0}", dealer.cardsInHand.Last());
+                        dealerScore = dealer.EvaluateHand();
+                    }
+                    else
+                    {
+                        if (dealerScore > 21)
+                        {
+                            Console.WriteLine("Bust!");
+                            Console.WriteLine("Player wins!");
+                        }
+                        else
+                        {
+                            if (dealer.CompareTo(player) == 0)
+                            {
+                                Console.WriteLine("Tie!");
+                            }
+                            else if (dealer.CompareTo(player) == 1)
+                            {
+                                Console.WriteLine("Dealer wins!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Player wins!");
+                            }
+                        }
+                    }
+                }
             }
-            while (input == "H" || input == "h" || input == "Hit" || input == "hit");
-
         }
     }
 }

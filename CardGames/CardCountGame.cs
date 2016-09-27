@@ -141,7 +141,8 @@ namespace CardGames
             h2 = new CardCountHand();
             for (int i = 0; i < 8; i++)
             {
-                h2.AddCard(deck.DealOne());
+                //h2.AddCard(deck.DealOne());
+                h2.cardsInHand.Add(deck.DealOne());
             }
         }
         public static void PlayGame()
