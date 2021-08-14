@@ -119,11 +119,11 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BlackJackGame.cs" />
-    <Compile Include="BlackJackHand.cs" />
+    <Compile Include="Games\BlackJackGame.cs" />
+    <Compile Include="Games\BlackJackHand.cs" />
     <Compile Include="Models\Card.cs" />
-    <Compile Include="CardCountGame.cs" />
-    <Compile Include="CardCountHand.cs" />
+    <Compile Include="Games\CardCountGame.cs" />
+    <Compile Include="Games\CardCountHand.cs" />
     <Compile Include="Models\Deck.cs" />
     <Compile Include="Models\Hand.cs" />
     <Compile Include="MainClass.cs" />
