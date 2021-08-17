@@ -5,7 +5,7 @@ namespace CardGames
 {
     public class Suit
     {
-        int value;
+        public int Value { get; set; }
 
         public static readonly Suit CLUBS;
         public static readonly Suit DIAMONDS;
@@ -25,16 +25,16 @@ namespace CardGames
      
         public Suit(int card)
         {
-            this.value = card;
+            this.Value = card;
         }
 
         public int CompareTo(Suit OtherSuitObject)
         {
-            if (this.value == OtherSuitObject.value)
+            if (this.Value == OtherSuitObject.Value)
             {
                 return 0;
             }
-            else if (this.value < OtherSuitObject.value)
+            else if (this.Value < OtherSuitObject.Value)
             {
                 return -1;
             }
@@ -46,7 +46,7 @@ namespace CardGames
 
         public string GetSymbol()
         {
-            switch (this.value)
+            switch (this.Value)
             {
                 case 1:
                     return "♣"; //\u2663
@@ -63,7 +63,7 @@ namespace CardGames
 
         public string GetName()
         {
-            switch (this.value)
+            switch (this.Value)
             {
                 case 1:
                     return "CLUBS";
@@ -80,19 +80,6 @@ namespace CardGames
 
         public override string ToString()
         {
-            //switch (this.value)
-            //{
-            //    case 1:
-            //        return "CLUBS";
-            //    case 2:
-            //        return "DIAMONDS";
-            //    case 3:
-            //        return "HEARTS";
-            //    case 4:
-            //        return "SPADES";
-            //    default:
-            //        return "?";
-            //}
 
             return this.GetSymbol();
 

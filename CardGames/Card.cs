@@ -7,7 +7,6 @@ namespace CardGames
     {
         Suit cardSuit; //Suit
         Rank cardRank; //Rank
-        //string cardRank;
 
         public Card(Suit suit, Rank rank)
         {

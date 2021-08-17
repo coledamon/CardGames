@@ -23,6 +23,7 @@ namespace CardGames
 
         public Card DealOne()
         {
+            
             dealtCard = deckOfCards[0];
             usedDeck.Add(dealtCard);
             deckOfCards.RemoveAt(0);
@@ -41,14 +42,12 @@ namespace CardGames
 
         public bool isEmpty()
         {
-            if (deckOfCards.Count == 0)
-                return true;
-            else
-                return false;
+            return deckOfCards.Count == 0;
         }
 
         public void Shuffle()
         {
+            
             int n = deckOfCards.Count;
             Random rng = new Random();
             while (n > 1)
@@ -63,10 +62,12 @@ namespace CardGames
 
         public void RestoreDeck()
         {
-            foreach(var cards in usedDeck)
+            foreach(var card in usedDeck)
             {
-                deckOfCards.Add(cards);
+                deckOfCards.Add(card);
+                
             }
+            usedDeck.Clear();
         }
     }
 }
