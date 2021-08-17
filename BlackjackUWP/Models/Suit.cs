@@ -77,6 +77,22 @@ namespace CardGames
                     return "?";
             }
         }
+        public string GetShortName()
+        {
+            switch (this.value)
+            {
+                case 1:
+                    return "C";
+                case 2:
+                    return "D";
+                case 3:
+                    return "H";
+                case 4:
+                    return "S";
+                default:
+                    return "?";
+            }
+        }
 
         public override string ToString()
         {
@@ -94,7 +110,7 @@ namespace CardGames
             //        return "?";
             //}
 
-            return this.GetSymbol();
+            return this.GetShortName();
 
         }
     }

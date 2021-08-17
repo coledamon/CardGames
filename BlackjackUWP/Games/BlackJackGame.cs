@@ -8,34 +8,13 @@ namespace CardGames
     {
         static BlackJackHand player;
         static BlackJackHand dealer;
-        static Deck deck = new Deck();
+        static Deck deck = new Deck(6);
         public static int dealerScore = 0;
         public static int playerScore = 0;
         //public static int i = 0;
 
         static BlackJackGame()
         {
-            List<Card> multDeck = new List<Card>();
-
-            for (int x = 0; x < 6; x++)
-            {
-                for (int i = 0; i <= 3; i++)
-                {
-                    for (int j = 0; j <= 12; j++)
-                    {
-                        Card cards = new Card(Suit.VALUES[i], Rank.VALUES[j]);
-                        multDeck.Add(cards);
-                    }
-                }
-            }
-
-            foreach (Card card in multDeck)
-            {
-                deck.AddCard(card);
-            }
-
-            deck.Shuffle();
-
             player = new BlackJackHand();
             //dealer = new BlackJackHand();
 

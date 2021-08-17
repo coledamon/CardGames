@@ -49,5 +49,10 @@ namespace CardGames
         {
             return this.cardRank.ToString() + this.cardSuit.ToString();
         }
+
+        public string ToImgString()
+        {
+            return $"./images/{ToString()}.png";
+        }
     }
 }

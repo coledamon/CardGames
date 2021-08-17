@@ -55,6 +55,7 @@ namespace CardGames
         
         public Card GetCardAtIndex(int index)
         {
+            if (index >= cardsInHand.Count) return null;
             return cardsInHand[index];
         }
 

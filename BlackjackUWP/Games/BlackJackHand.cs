@@ -49,9 +49,9 @@ namespace CardGames
             return handTotal;
         }
 
-        string toStringOutput = "";
         public override string ToString()
         {
+            string toStringOutput = "";
             foreach (Card cards in cardsInHand)
             {
                 toStringOutput = toStringOutput + cards + " ";

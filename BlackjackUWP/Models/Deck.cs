@@ -10,10 +10,25 @@ namespace CardGames
         public static List<Card> deckOfCards;
         public static Card dealtCard;
 
-        static Deck()
+        public Deck(int numDecksToAdd = 1)
         {
             deckOfCards = new List<Card>();
             usedDeck = new List<Card>();
+
+            for (int i = 0; i < numDecksToAdd; i++) AddFullDeck();
+            Shuffle();
+        }
+
+        public void AddFullDeck()
+        {
+            for (int i = 0; i <= 3; i++)
+            {
+                for (int j = 0; j <= 12; j++)
+                {
+                    Card cards = new Card(Suit.VALUES[i], Rank.VALUES[j]);
+                    deckOfCards.Add(cards);
+                }
+            }
         }
 
         public void AddCard(Card card)
@@ -67,6 +82,7 @@ namespace CardGames
             {
                 deckOfCards.Add(cards);
             }
+            Shuffle();
         }
     }
 }
