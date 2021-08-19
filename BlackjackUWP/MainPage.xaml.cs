@@ -164,6 +164,9 @@ namespace BlackjackUWP
         private void saveExit_Click(object sender, RoutedEventArgs e)
         {
             //save balance to txt file
+            //i have tested it in a diffrent project and it works but something is stoping it in this one, most likely git, if i can get it to work here i will add it to where it is needed
+            //if you want to test it just uncomment
+            //File.WriteAllText("balance.txt", playerBalance+"");
         }
 
         private void betBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
