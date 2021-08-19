@@ -33,9 +33,13 @@ namespace BlackjackUWP
         public static int playerScore = 0;
         static bool gameOver = false;
         private int playerBalance;
+        private int playerBet;
+
+
 
         public string maxBetString { get { return $"Max: {maxBet}"; } }
         private int maxBet = 0;
+        private int minBet = 0;
 
         public MainPage()
         {
@@ -104,16 +108,26 @@ namespace BlackjackUWP
         private void betBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             char key = (char)e.Key;
-            e.Handled = !((key >= 48 && key <= 57)/*numbers*/ || (key >=96 && key <=105)/*numpad*/ || key == 8/*backspace*/ ||key == 46/*delete*/|| (key >= 37 && key <=40)/*arrows*/);
+            e.Handled = !((key >= 48 && key <= 57)/*numbers*/ || (key >= 96 && key <= 105)/*numpad*/ || key == 8/*backspace*/ || key == 46/*delete*/|| (key >= 37 && key <= 40)/*arrows*/);
         }
 
         private void betBtn_Click(object sender, RoutedEventArgs e)
         {
+            int betValue = int.Parse(betBox.Text); //user value
+            Bet(betValue);
 
         }
 
+        /// <summary>
+        /// allows player to double down on their original bet
+        /// assumes it is the first turn and players current hand equals 9,10,11
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void doubleDownBtn_Click(object sender, RoutedEventArgs e)
         {
+            Bet(playerBet);
+            DealPlayerCard(1);
 
         }
 
@@ -127,7 +141,17 @@ namespace BlackjackUWP
 
         }
 
-      
+        private void Bet(int betValue)
+        {
+            if (betValue >= minBet && betValue <= maxBet) //make sure user is within min and max bet values
+            {
+                playerBalance -= (betValue - playerBet); //subtract the bet value from the user's balance
+                playerBet = betValue;
+                betBox.Text = playerBet.ToString();
+            }
+        }
+
+
 
         //public static void PlayGame()
         //{
@@ -227,7 +251,7 @@ namespace BlackjackUWP
         //}
 
 
-        
+
 
         //private static bool CheckForGameOver(BlackJackHand hand)
         //{

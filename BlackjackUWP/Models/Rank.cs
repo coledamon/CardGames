@@ -5,8 +5,8 @@ namespace CardGames
 {
     public class Rank
     {
-        string rankName;
-        int value;
+        public string RankName { get; set; }
+        public int Value { get; set; }
 
         public static readonly Rank TWO;
         public static readonly Rank THREE;
@@ -48,17 +48,17 @@ namespace CardGames
 
         public Rank(string name, int rank)
         {
-            this.rankName = name;
-            this.value = rank;
+            this.RankName = name;
+            this.Value = rank;
         }
 
         public int CompareTo(Rank OtherRankObject)
         {
-            if (this.value == OtherRankObject.value)
+            if (this.Value == OtherRankObject.Value)
             {
                 return 0;
             }
-            else if (this.value < OtherRankObject.value)
+            else if (this.Value < OtherRankObject.Value)
             {
                 return -1;
             }
@@ -70,17 +70,17 @@ namespace CardGames
 
         public string GetSymbol()
         {
-            if (this.value < 11)
+            if (this.Value < 11)
             {
-                return this.value.ToString();
+                return this.Value.ToString();
             }
             else
             {
-                if (this.value == 11)
+                if (this.Value == 11)
                     return "J";
-                else if (this.value == 12)
+                else if (this.Value == 12)
                     return "Q";
-                else if (this.value == 13)
+                else if (this.Value == 13)
                     return "K";
                 else
                     return "A";
@@ -90,7 +90,7 @@ namespace CardGames
 
         public string GetName()
         {
-            return this.rankName;
+            return this.RankName;
         }
 
         public override string ToString()
