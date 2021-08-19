@@ -143,7 +143,7 @@ namespace BlackjackUWP
 
         private void Bet(int betValue)
         {
-            if (betValue >= minBet && betValue <= maxBet) //make sure user is within min and max bet values
+            if (betValue >= minBet && betValue <= maxBet && betValue <= playerBalance) //make sure user is within min and max bet values
             {
                 playerBalance -= (betValue - playerBet); //subtract the bet value from the user's balance
                 playerBet = betValue;
