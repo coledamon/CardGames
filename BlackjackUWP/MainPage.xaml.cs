@@ -169,12 +169,14 @@ namespace BlackjackUWP
         private void betBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             char key = (char)e.Key;
-            e.Handled = !((key >= 48 && key <= 57)/*numbers*/ || (key >=96 && key <=105)/*numpad*/ || key == 8/*backspace*/ ||key == 46/*delete*/|| (key >= 37 && key <=40)/*arrows*/);
+            e.Handled = !((key >= 48 && key <= 57)/*numbers*/ || (key >= 96 && key <= 105)/*numpad*/ || key == 8/*backspace*/ || key == 46/*delete*/|| (key >= 37 && key <= 40)/*arrows*/);
         }
 
         private void betBtn_Click(object sender, RoutedEventArgs e)
         {
             //validate bet amt
+            int betValue = int.Parse(betBox.Text); //user value
+            Bet(betValue);
 
 
             //hide bet screen
@@ -190,9 +192,18 @@ namespace BlackjackUWP
             //check for blackjack (if so move to dealer turn)
         }
 
+        /// <summary>
+        /// allows player to double down on their original bet
+        /// assumes it is the first turn and players current hand equals 9,10,11
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void doubleDownBtn_Click(object sender, RoutedEventArgs e)
         {
             //take bet from playerbalance, deal one card, check if hand value over, move to dealerturn
+            Bet(playerBet);
+            DealPlayerCard(1);
+
         }
 
         private void stayBtn_Click(object sender, RoutedEventArgs e)
@@ -206,6 +217,16 @@ namespace BlackjackUWP
         {
             HideDoubleDown();
             //add card, check if hand value over 
+        }
+
+        private void Bet(int betValue)
+        {
+            if (betValue >= minBet && betValue <= maxBet && betValue <= playerBalance) //make sure user is within min and max bet values
+            {
+                playerBalance -= (betValue - playerBet); //subtract the bet value from the user's balance
+                playerBet = betValue;
+                betBox.Text = playerBet.ToString();
+            }
         }
 
         public void PlayGame()
@@ -310,5 +331,6 @@ namespace BlackjackUWP
             return hand.EvaluateHand() < 21 ? false : true;
         }
 
+        
     }
 }
