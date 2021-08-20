@@ -35,8 +35,8 @@ namespace BlackjackUWP
         private bool gameOver = false;
         private List<Image> playerImages = new List<Image>();
         private List<Image> dealerImages = new List<Image>();
-
-        private int playerBalance = 0;
+        private int playerBalance;
+        private int playerBet;
 
         public MainPage()
         {
@@ -224,7 +224,7 @@ namespace BlackjackUWP
 
         private void Bet(int betValue)
         {
-            if (betValue >= minBet && betValue <= maxBet && betValue <= playerBalance) //make sure user is within min and max bet values
+            if (betValue >= 0 && betValue <= playerBalance) //make sure user is within min and max bet values
             {
                 playerBalance -= (betValue - playerBet); //subtract the bet value from the user's balance
                 playerBet = betValue;
