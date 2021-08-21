@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using CardGames;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -35,7 +36,7 @@ namespace BlackjackUWP
         private bool gameOver = false;
         private List<Image> playerImages = new List<Image>();
         private List<Image> dealerImages = new List<Image>();
-        private int playerBalance;
+        private int playerBalance = 500;
         private int playerBet;
 
         public MainPage()
@@ -60,9 +61,16 @@ namespace BlackjackUWP
             dealerImages.Add(dealerCard7Img);
         }
 
-        private void startBtn_Click(object sender, RoutedEventArgs e)
+        private async void startBtn_Click(object sender, RoutedEventArgs e)
         {
-            UpdatePlayerBalance(500);//read in player balance
+            int num = 500;
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            if (await storageFolder.TryGetItemAsync("balance.txt") != null)
+            {
+                StorageFile storageFile = await storageFolder.GetFileAsync("balance.txt");
+                num = int.Parse(await FileIO.ReadTextAsync(storageFile));
+            }
+            UpdatePlayerBalance(num);//read in player balance
             InstantiateGame();
         }
 
@@ -133,7 +141,7 @@ namespace BlackjackUWP
             {
                 Card card = deck.DealOne();
                 playerHand.AddCard(card);
-                PlaceCard(0, card.ToImgString());
+                PlaceCardInGUI(0, card.ToImgString());
                 curValTxt.Text = playerHand.EvaluateHand().ToString();
             }
         }
@@ -143,11 +151,11 @@ namespace BlackjackUWP
             {
                 Card card = deck.DealOne();
                 dealerHand.AddCard(card);
-                PlaceCard(1, card.ToImgString(), faceDown);
+                PlaceCardInGUI(1, card.ToImgString(), faceDown);
             }
         }
 
-        private void PlaceCard(int player, string imageString, bool faceDown = false)
+        private void PlaceCardInGUI(int player, string imageString, bool faceDown = false)
         {
             if (faceDown) imageString = "./images/red_back.png";
             BitmapImage bitmapImage = new BitmapImage(new Uri(this.BaseUri, imageString));
@@ -161,12 +169,17 @@ namespace BlackjackUWP
             }
         }
 
-        private void saveExit_Click(object sender, RoutedEventArgs e)
+        private async void saveExit_Click(object sender, RoutedEventArgs e)
         {
             //save balance to txt file
-            //i have tested it in a diffrent project and it works but something is stoping it in this one, most likely git, if i can get it to work here i will add it to where it is needed
-            //if you want to test it just uncomment
-            //File.WriteAllText("balance.txt", playerBalance+"");
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            if (await storageFolder.TryGetItemAsync("balance.txt") == null)
+            {
+                await storageFolder.CreateFileAsync("balance.txt");
+            }
+            StorageFile storageFile = await storageFolder.GetFileAsync("balance.txt");
+            await FileIO.WriteTextAsync(storageFile, playerBalance.ToString());
+            Application.Current.Exit();
         }
 
         private void betBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -178,21 +191,33 @@ namespace BlackjackUWP
         private void betBtn_Click(object sender, RoutedEventArgs e)
         {
             //validate bet amt
-            int betValue = int.Parse(betBox.Text); //user value
-            Bet(betValue);
+            if (int.TryParse(betBox.Text, out int betValue) && Bet(betValue))
+            {
+                //user value
+                //hide error message
+                SetBetErrorVisibility(Visibility.Collapsed);
+                //hide bet screen
+                SetBetScreenVisibility(Visibility.Collapsed);
+                //show game screen
+                SetGameScreenVisibility(Visibility.Visible);
 
+                //deal the player and dealer two cards each
+                DealPlayerCard(2);
+                DealDealerCard(1, true);
+                DealDealerCard(1);
 
-            //hide bet screen
-            SetBetScreenVisibility(Visibility.Collapsed);
-            //show game screen
-            SetGameScreenVisibility(Visibility.Visible);
+                //check for blackjack (if so move to dealer turn)
+            }
+            else
+            {
+                SetBetErrorVisibility(Visibility.Visible, "Bet error invalid, please try again.");
+            }
+        }
 
-            //deal the player and dealer two cards each
-            DealPlayerCard(2);
-            DealDealerCard(1, true);
-            DealDealerCard(1);
-
-            //check for blackjack (if so move to dealer turn)
+        private void SetBetErrorVisibility(Visibility visibility, string message = "")
+        {
+            betErrorTxt.Text = message;
+            betErrorTxt.Visibility = visibility;
         }
 
         /// <summary>
@@ -206,7 +231,12 @@ namespace BlackjackUWP
             //take bet from playerbalance, deal one card, check if hand value over, move to dealerturn
             Bet(playerBet);
             DealPlayerCard(1);
+            CheckPlayerTotal();
+        }
 
+        private void CheckPlayerTotal()
+        {
+            throw new NotImplementedException();
         }
 
         private void stayBtn_Click(object sender, RoutedEventArgs e)
@@ -214,22 +244,27 @@ namespace BlackjackUWP
             HideDoubleDown();
             //move to dealer turn
             //hide all buttons
+            CheckPlayerTotal();
         }
 
         private void hitBtn_Click(object sender, RoutedEventArgs e)
         {
             HideDoubleDown();
-            //add card, check if hand value over 
+            //add card, check if hand value over
+            CheckPlayerTotal();
         }
 
-        private void Bet(int betValue)
+        private bool Bet(int betValue)
         {
-            if (betValue >= 0 && betValue <= playerBalance) //make sure user is within min and max bet values
+            if (betValue > 0 && betValue <= playerBalance) //make sure user is within min and max bet values
             {
-                playerBalance -= (betValue - playerBet); //subtract the bet value from the user's balance
+                //playerBalance -= (betValue - playerBet); //subtract the bet value from the user's balance
+                UpdatePlayerBalance(playerBalance - (betValue - playerBet)); //update all elements when updates playerbalance
                 playerBet = betValue;
                 betBox.Text = playerBet.ToString();
+                return true;
             }
+            return false;
         }
 
         public void PlayGame()
@@ -334,6 +369,9 @@ namespace BlackjackUWP
             return hand.EvaluateHand() < 21 ? false : true;
         }
 
-        
+        private void playAgainBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
