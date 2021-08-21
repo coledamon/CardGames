@@ -124,12 +124,17 @@ namespace BlackjackUWP
 
         private void SetGameScreenVisibility(Visibility visibility)
         {
-            balanceTopTxt.Visibility = visibility;
             doubleDownBtn.Visibility = visibility;
             hitBtn.Visibility = visibility;
             stayBtn.Visibility = visibility;
             curValTxt.Visibility = visibility;
         }
+
+        private void SetTopBalanceVisibility(Visibility visibility)
+        {
+            balanceTopTxt.Visibility = visibility;
+        }
+
         private void HideDoubleDown()
         {
             doubleDownBtn.Visibility = Visibility.Collapsed;
@@ -141,7 +146,7 @@ namespace BlackjackUWP
             {
                 Card card = deck.DealOne();
                 playerHand.AddCard(card);
-                PlaceCardInGUI(0, card.ToImgString());
+                PlaceCardInGUI(0, playerHand.GetNumberOfCards() - 1, card.ToImgString());
                 curValTxt.Text = playerHand.EvaluateHand().ToString();
             }
         }
@@ -151,21 +156,21 @@ namespace BlackjackUWP
             {
                 Card card = deck.DealOne();
                 dealerHand.AddCard(card);
-                PlaceCardInGUI(1, card.ToImgString(), faceDown);
+                PlaceCardInGUI(1, dealerHand.GetNumberOfCards() - 1, card.ToImgString(), faceDown);
             }
         }
 
-        private void PlaceCardInGUI(int player, string imageString, bool faceDown = false)
+        private void PlaceCardInGUI(int player, int place, string imageString, bool faceDown = false)
         {
             if (faceDown) imageString = "./images/red_back.png";
             BitmapImage bitmapImage = new BitmapImage(new Uri(this.BaseUri, imageString));
             if (player == 0)//player hand
             {
-                playerImages[playerHand.GetNumberOfCards() - 1].Source = bitmapImage;
+                playerImages[place].Source = bitmapImage;
             }
             else //dealer hand
             {
-                dealerImages[dealerHand.GetNumberOfCards() - 1].Source = bitmapImage;
+                dealerImages[place].Source = bitmapImage;
             }
         }
 
@@ -200,13 +205,16 @@ namespace BlackjackUWP
                 SetBetScreenVisibility(Visibility.Collapsed);
                 //show game screen
                 SetGameScreenVisibility(Visibility.Visible);
+                SetTopBalanceVisibility(Visibility.Visible);
 
                 //deal the player and dealer two cards each
-                DealPlayerCard(2);
+                DealPlayerCard(1);
                 DealDealerCard(1, true);
+                DealPlayerCard(1);
                 DealDealerCard(1);
 
                 //check for blackjack (if so move to dealer turn)
+                CheckPlayerTotal();
             }
             else
             {
@@ -220,40 +228,6 @@ namespace BlackjackUWP
             betErrorTxt.Visibility = visibility;
         }
 
-        /// <summary>
-        /// allows player to double down on their original bet
-        /// assumes it is the first turn and players current hand equals 9,10,11
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void doubleDownBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //take bet from playerbalance, deal one card, check if hand value over, move to dealerturn
-            Bet(playerBet);
-            DealPlayerCard(1);
-            CheckPlayerTotal();
-        }
-
-        private void CheckPlayerTotal()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void stayBtn_Click(object sender, RoutedEventArgs e)
-        {
-            HideDoubleDown();
-            //move to dealer turn
-            //hide all buttons
-            CheckPlayerTotal();
-        }
-
-        private void hitBtn_Click(object sender, RoutedEventArgs e)
-        {
-            HideDoubleDown();
-            //add card, check if hand value over
-            CheckPlayerTotal();
-        }
-
         private bool Bet(int betValue)
         {
             if (betValue > 0 && betValue <= playerBalance) //make sure user is within min and max bet values
@@ -265,6 +239,119 @@ namespace BlackjackUWP
                 return true;
             }
             return false;
+        }
+
+        /// <summary>
+        /// allows player to double down on their original bet
+        /// assumes it is the first turn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void doubleDownBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //take bet from playerbalance, deal one card, check if hand value over, move to dealerturn
+            Bet(playerBet);
+            DealPlayerCard(1);
+            if(playerHand.EvaluateHand() > 21)
+            {
+                MoveToEnd(false);
+            }
+            else
+            {
+                DealerTurn();
+            }
+        }
+
+        private void CheckPlayerTotal()
+        {
+            if (playerHand.EvaluateHand() > 21)
+            {
+                //bust, move to end screen
+                SetGameScreenVisibility(Visibility.Collapsed);
+                MoveToEnd(false);
+            }
+            else if(playerHand.EvaluateHand() == 21 && playerHand.GetNumberOfCards() == 2)
+            {
+                SetGameScreenVisibility(Visibility.Collapsed);
+                //blackjack
+                //flip dealer card
+                PlaceCardInGUI(1, 0, dealerHand.GetCardAtIndex(0).ToImgString());
+                //and if blackjack wait for 1s then push,
+                if(dealerHand.EvaluateHand() == 21)
+                {
+                    //wait 1s
+                    //push
+                    MoveToEnd(null);
+                }
+                else
+                {
+                    //payout blackjack rate
+                }
+            }
+        }
+
+        private void stayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            HideDoubleDown();
+            //move to dealer turn
+            DealerTurn();
+        }
+
+        private void hitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            HideDoubleDown();
+            //add card
+            DealPlayerCard(1);
+            //check if hand value over
+            CheckPlayerTotal();
+        }
+
+        private void DealerTurn()
+        {
+            //hide all buttons
+            SetGameScreenVisibility(Visibility.Collapsed);
+            PlaceCardInGUI(1, 0, dealerHand.GetCardAtIndex(0).ToImgString());
+            //original code (maybe try to use so we can say it was modified at least)
+
+            //while (dealerScore < 17)
+            //{
+            //    dealerHand.cardsInHand.Add(deck.DealOne());
+            //    //Console.WriteLine("Dealer have been dealt the {0}", dealer.cardsInHand.Last());
+            //    dealerScore = dealerHand.EvaluateHand();
+            //    //Console.WriteLine(dealerScore);
+            //}
+
+            throw new NotImplementedException();
+        }
+        private void MoveToEnd(bool? playerWon)
+        {
+            //true, player win
+            //false, player lose
+            //null, push
+
+            //original code (maybe try to use so we can say it was modified at least)
+
+            //if (dealerScore >= 17 && dealerScore <= 21)
+            //{
+            //    if (dealerHand.CompareTo(playerHand) == 0)
+            //    {
+            //        //Console.WriteLine("Tie!");
+            //    }
+            //    else if (dealerHand.CompareTo(playerHand) == 1)
+            //    {
+            //        //Console.WriteLine("Dealer wins!");
+            //    }
+            //    else
+            //    {
+            //        //Console.WriteLine("Player wins!");
+            //    }
+            //}
+            //else
+            //{
+            //    //Console.WriteLine("Bust!");
+            //    //Console.WriteLine("Player wins!");
+            //}
+            throw new NotImplementedException();
         }
 
         public void PlayGame()
