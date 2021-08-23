@@ -52,6 +52,11 @@ namespace CardGames
             }
             return -1;
         }
+
+        public List<Card> FindCardsByValue(string value)
+        {
+            return cardsInHand.FindAll(c => c.GetRank().ToString() == value);
+        }
         
         public Card GetCardAtIndex(int index)
         {
