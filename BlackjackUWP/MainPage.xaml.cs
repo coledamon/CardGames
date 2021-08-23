@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
+using System.Threading;
 using CardGames;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -143,11 +144,50 @@ namespace BlackjackUWP
 
         private void Bet(int betValue)
         {
-            if (betValue >= minBet && betValue <= maxBet && betValue <= playerBalance) //make sure user is within min and max bet values
+            //user bet must be between min and max bet values
+            //user bet can not exceed player balance
+            if (betValue >= minBet && betValue <= maxBet && betValue <= playerBalance)
             {
                 playerBalance -= (betValue - playerBet); //subtract the bet value from the user's balance
                 playerBet = betValue;
                 betBox.Text = playerBet.ToString();
+            }
+        }
+
+        private void DealerTurn()
+        {
+            //Thread.Sleep(3000);
+            int handValue = dealer.EvaluateHand();
+
+            while(handValue < 17){
+                DealDealerCard(1);
+            }
+        }
+
+        /// <summary>
+        /// compare dealer and player hand
+        /// 
+        /// </summary>
+        private void CompareHands()
+        {
+            int playerHandValue = player.EvaluateHand();
+            int dealerHandValue = dealer.EvaluateHand();
+
+            if(playerHandValue == 21) //player has blackjack
+            {
+                if(dealerHandValue != 21)
+                {
+                    playerBalance += (int)(playerBet * 2.5);
+                }
+            }
+            //player and dealer have the same value
+            if(playerHandValue == dealerHandValue) 
+            {
+                playerBalance += playerBet; //return players bet
+            }
+            else if(playerHandValue > dealerHandValue)
+            {
+                playerBalance += playerBet * 2; //return players bet * 2
             }
         }
 
