@@ -110,24 +110,16 @@ namespace BlackjackUWP
         }
         private void SetStartScreenVisibility(Visibility visibility)
         {
-            startBtn.Visibility = visibility;
-            newGameBtn.Visibility = visibility;
+            StartingScreen.Visibility = visibility;
         }
         private void SetBetScreenVisibility(Visibility visibility)
         {
-            balanceMidTxt.Visibility = visibility;
-            betTxt.Visibility = visibility;
-            betBox.Visibility = visibility;
-            minBetTxt.Visibility = visibility;
-            maxBetTxt.Visibility = visibility;
-            betBtn.Visibility = visibility;
+            BettingScreen.Visibility = visibility;
         }
 
         private void SetGameScreenVisibility(Visibility visibility)
         {
-            doubleDownBtn.Visibility = visibility;
-            hitBtn.Visibility = visibility;
-            stayBtn.Visibility = visibility;
+            GameScreen.Visibility = visibility;
             curValTxt.Visibility = visibility;
         }
 
@@ -138,8 +130,7 @@ namespace BlackjackUWP
 
         private void SetEndGameScreenVisibility(Visibility visibility)
         {
-            gameResultTxt.Visibility = visibility;
-            playAgainBtn.Visibility = visibility;
+            GameOver.Visibility = visibility;
         }
 
         private void HideDoubleDown()
@@ -480,6 +471,11 @@ namespace BlackjackUWP
                 UpdatePlayerBalance(500);
 
             InstantiateGame();
+        }
+
+        private void shopBtn_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 

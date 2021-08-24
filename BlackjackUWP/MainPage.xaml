@@ -21,26 +21,33 @@
 
 
         <!--Starting Screen-->
-        <Button x:Name="startBtn" Visibility="Visible" Click="startBtn_Click" Content="Start" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="650,400,0,0" VerticalAlignment="Top" Height="65" Width="238"/>
-        <Button x:Name="newGameBtn" Visibility="Visible" Click="newGameBtn_Click" Content="New Game" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="650,500,0,0" VerticalAlignment="Top" Height="65" Width="238"/>
+        <StackPanel x:Name="StartingScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible">
+            <Button x:Name="startBtn" Visibility="Visible" Click="startBtn_Click" Content="Start" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238"/>
+            <Button x:Name="newGameBtn" Visibility="Visible" Click="newGameBtn_Click" Content="New Game" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238"/>
+        </StackPanel>
 
 
         <!--Betting Screen-->
-        <TextBlock x:Name="balanceMidTxt" Visibility="Collapsed"  HorizontalAlignment="Left" Margin="621,318,0,0" Text="" FontSize="36" Foreground="Black" TextWrapping="Wrap" VerticalAlignment="Top" Height="51" Width="278"/>
-        <TextBlock x:Name="betTxt" Visibility="Collapsed" Foreground="Black" FontSize="24" HorizontalAlignment="Left" Margin="670,388,0,0" Text="Bet:" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBox x:Name="betBox" Visibility="Collapsed" PreviewKeyDown="betBox_PreviewKeyDown" HorizontalAlignment="Left" Margin="719,391,0,0" PlaceholderText="Bet Amount" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="119"/>
-        <TextBlock x:Name="minBetTxt" Visibility="Collapsed" Foreground="Black" FontSize="24" HorizontalAlignment="Left" Margin="629,432,0,0" Text="Min: 1" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <TextBlock x:Name="maxBetTxt" Visibility="Collapsed" Foreground="Black" FontSize="24" HorizontalAlignment="Left" Margin="729,432,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Button x:Name="betBtn" Visibility="Collapsed" Click="betBtn_Click" Foreground="Black" BorderBrush="Black" BorderThickness="2" FontSize="24" Content="Place Bet" Width="177" Height="42" Margin="645,470,0,0" VerticalAlignment="Top"/>
-        <TextBlock x:Name="betErrorTxt" Visibility="Collapsed" Foreground="Black" FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" Margin="644,522,0,0" Text="Bet error invalid, please try again." TextWrapping="Wrap" VerticalAlignment="Top" Height="58" Width="179"/>
-
+        <StackPanel x:Name="BettingScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            <TextBlock x:Name="balanceMidTxt" HorizontalAlignment="Left" Margin="0 5" Text="" FontSize="36" Foreground="Black" TextWrapping="Wrap" Height="51" Width="278"/>
+            <TextBlock x:Name="betTxt" Foreground="Black" FontSize="24" HorizontalAlignment="Left" Margin="0 5" Text="Bet:" TextWrapping="Wrap"/>
+            <TextBox x:Name="betBox" PreviewKeyDown="betBox_PreviewKeyDown" HorizontalAlignment="Left" Margin="0 5" PlaceholderText="Bet Amount" Text="" TextWrapping="Wrap" Width="119"/>
+            <TextBlock x:Name="minBetTxt" Foreground="Black" FontSize="24" HorizontalAlignment="Left" Margin="0 5" Text="Min: 1" TextWrapping="Wrap"/>
+            <TextBlock x:Name="maxBetTxt" Foreground="Black" FontSize="24" HorizontalAlignment="Left" Margin="0 5" Text="" TextWrapping="Wrap"/>
+            <Button x:Name="betBtn" Click="betBtn_Click" Foreground="Black" BorderBrush="Black" BorderThickness="2" FontSize="24" Content="Place Bet" Width="177" Height="42" Margin="0 5"/>
+            <Button x:Name="shopBtn" Click="shopBtn_Click"  Foreground="Black" BorderBrush="Black" BorderThickness="2" FontSize="24" Content="Shop" Width="177" Height="42" Margin="0 5" Visibility="Collapsed"/>
+            <TextBlock x:Name="betErrorTxt" Visibility="Collapsed" Foreground="Black" FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" Margin="0 10" Text="Bet error invalid, please try again." TextWrapping="Wrap" Height="58" Width="179"/>
+        </StackPanel>
 
         <!--Game Screen-->
-        <TextBlock x:Name="balanceTopTxt" Visibility="Collapsed"  HorizontalAlignment="Left" Margin="1286,10,0,0" Text="" FontSize="24" Foreground="Black" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Width="188"/>
-        <Button x:Name="doubleDownBtn" Visibility="Collapsed" Click="doubleDownBtn_Click" Content="Double Down" FontSize="24" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="680,375,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="hitBtn" Visibility="Collapsed" Click="hitBtn_Click" Content="Hit" FontSize="24" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="600,375,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="stayBtn" Visibility="Collapsed" Click="stayBtn_Click" Content="Stay" FontSize="24" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="875,375,0,0" VerticalAlignment="Top"/>
-        <TextBlock x:Name="curValTxt" Visibility="Collapsed" FontSize="24" Foreground="Black" HorizontalAlignment="Left" Margin="631,569,0,0" Text="Current Value: " TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock x:Name="balanceTopTxt" Visibility="Collapsed" HorizontalAlignment="Left" Margin="1286,10,0,0" Text="" FontSize="24" Foreground="Black" TextWrapping="Wrap" VerticalAlignment="Top" Height="34" Width="188"/>
+        <StackPanel x:Name="GameScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            <!--<TextBlock x:Name="balanceTopTxt" HorizontalAlignment="Left" Margin="0 5" Text="" FontSize="24" Foreground="Black" TextWrapping="Wrap" Height="34" Width="188"/>-->
+            <Button x:Name="doubleDownBtn" Click="doubleDownBtn_Click" Content="Double Down" FontSize="24" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5"/>
+            <Button x:Name="hitBtn" Click="hitBtn_Click" Content="Hit" FontSize="24" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5"/>
+            <Button x:Name="stayBtn" Click="stayBtn_Click" Content="Stay" FontSize="24" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5"/>
+        </StackPanel>
+        <TextBlock x:Name="curValTxt" FontSize="24" Foreground="Black" HorizontalAlignment="Left" Margin="631,569,0,0" Text="Current Value: " TextWrapping="Wrap" Visibility="Collapsed"/>
 
         <!--player hand-->
         <Image x:Name="playerCard1Img" Source="./images/blank.png" HorizontalAlignment="Left" Height="212" Margin="570,612,0,0" VerticalAlignment="Top" Width="138"/>
@@ -61,8 +68,10 @@
         <Image x:Name="dealerCard7Img" Source="./images/blank.png" HorizontalAlignment="Left" Height="212" Margin="828,0,0,0" VerticalAlignment="Top" Width="138"/>
 
         <!--Game Over-->
-        <TextBlock x:Name="gameResultTxt" Visibility="Collapsed" Foreground="Black" FontSize="36" TextAlignment="Center" HorizontalAlignment="Left" Margin="582,341,0,0" Text="You won the hand! You gained $100" TextWrapping="Wrap" VerticalAlignment="Top" Height="130" Width="363"/>
-        <Button x:Name="playAgainBtn" Visibility="Collapsed" Click="playAgainBtn_Click" Foreground="Black" FontSize="36" BorderBrush="Black" BorderThickness="2" Content="Play Again" Margin="640,510,0,0" VerticalAlignment="Top" Height="60" Width="262"/>
+        <StackPanel x:Name="GameOver" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            <TextBlock x:Name="gameResultTxt" Foreground="Black" FontSize="36" TextAlignment="Center" HorizontalAlignment="Left" Margin="0 5" Text="You won the hand! You gained $100" TextWrapping="Wrap" VerticalAlignment="Top" Height="130" Width="363"/>
+            <Button x:Name="playAgainBtn" Click="playAgainBtn_Click" Foreground="Black" FontSize="36" BorderBrush="Black" BorderThickness="2" Content="Play Again" Margin="0 5" Height="60" Width="262" HorizontalAlignment="Center"/>
+        </StackPanel>
 
 
     </Grid>
