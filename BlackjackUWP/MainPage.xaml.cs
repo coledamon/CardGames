@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
+using System.Threading;
 using CardGames;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -34,9 +35,9 @@ namespace BlackjackUWP
         private bool gameOver = false;
         private List<Image> playerImages = new List<Image>();
         private List<Image> dealerImages = new List<Image>();
-        private int playerBalance = 500;
-        private int originalPlayerBalance;
-        private int playerBet;
+        private double playerBalance = 500;
+        private double originalPlayerBalance;
+        private double playerBet;
         public MainPage()
         {
             DataContext = this;
@@ -73,7 +74,7 @@ namespace BlackjackUWP
             UpdatePlayerBalance(500);
             InstantiateGame();
         }
-        private void UpdatePlayerBalance(int newBalance)
+        private void UpdatePlayerBalance(double newBalance)
         {
             playerBalance = newBalance;
             balanceMidTxt.Text = $"Balance: {playerBalance}";
@@ -189,7 +190,7 @@ namespace BlackjackUWP
         {
             //validate bet amt
             originalPlayerBalance = playerBalance;
-            if (int.TryParse(betBox.Text, out playerBet) && Bet())
+            if (double.TryParse(betBox.Text, out playerBet) && Bet())
             {
                 //user value
                 //hide error message
@@ -270,6 +271,7 @@ namespace BlackjackUWP
                 if (dealerHand.EvaluateHand() == 21)
                 {
                     //wait 1s
+                    //Thread.Sleep(1000);
                     MoveToEnd(EndState.Push);
                 }
                 else
@@ -362,12 +364,15 @@ namespace BlackjackUWP
                     break;
                 case EndState.NormalWin:
                     endScreenMessage = $"You Won!\n You gained ${playerBalance - originalPlayerBalance}.";
+                    UpdatePlayerBalance(playerBalance + playerBet * 2);
                     break;
                 case EndState.DoubleDownWin:
                     endScreenMessage = $"You Won!\n You gained ${playerBalance - originalPlayerBalance}.";
+                    UpdatePlayerBalance(playerBalance + playerBet * 3);
                     break;
                 case EndState.BlackJackWin:
                     endScreenMessage = $"You got a Blackjack!\n You gained ${playerBalance - originalPlayerBalance}.";
+                    UpdatePlayerBalance(playerBalance + playerBet * 2.5);
                     break;
             }
             gameResultTxt.Text = endScreenMessage;
