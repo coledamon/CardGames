@@ -25,7 +25,7 @@ namespace CardGames
             {
                 for (int j = 0; j <= 12; j++)
                 {
-                    Card cards = new Card(Suit.VALUES[i], Rank.VALUES[j]);
+                    Card cards = new Card(Suit.VALUES[i], new Rank(Rank.VALUES[j].RankName, Rank.VALUES[j].Value));
                     deckOfCards.Add(cards);
                 }
             }
@@ -34,6 +34,15 @@ namespace CardGames
         public void AddCard(Card card)
         {
             deckOfCards.Add(card);
+        }
+
+        public void setup()
+        {
+            deckOfCards[0] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
+            deckOfCards[1] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[12].RankName, Rank.VALUES[12].Value));
+            deckOfCards[2] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
+            deckOfCards[3] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[1].RankName, Rank.VALUES[1].Value));
+            deckOfCards[4] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[8].RankName, Rank.VALUES[8].Value));
         }
 
         public Card DealOne()

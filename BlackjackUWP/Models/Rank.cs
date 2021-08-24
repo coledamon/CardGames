@@ -70,7 +70,11 @@ namespace CardGames
 
         public string GetSymbol()
         {
-            if (this.Value < 11)
+            if(Value == 1)
+            {
+                return "A";
+            }
+            else if (this.Value < 11)
             {
                 return this.Value.ToString();
             }

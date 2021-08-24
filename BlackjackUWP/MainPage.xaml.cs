@@ -95,11 +95,13 @@ namespace BlackjackUWP
             {
                 image.Source = new BitmapImage(new Uri(this.BaseUri, "./images/blank.png"));
             }
-            if (deck.GetCardsRemaining() <= 26) deck.RestoreDeck();
+            deck = new Deck(6);
+
+            deck.setup();
             //instantiate the player
-            playerHand = new BlackJackHand(/*playerBalance*/);
+            playerHand = new BlackJackHand();
             //instantiate the dealer
-            dealerHand = new BlackJackHand(/*playerBalance*/);
+            dealerHand = new BlackJackHand();
 
             
             //hide start screen
@@ -260,7 +262,7 @@ namespace BlackjackUWP
             }
             else
             {
-                DealerTurn();
+                DealerTurn(true);
             }
         }
 
@@ -272,22 +274,27 @@ namespace BlackjackUWP
                 SetGameScreenVisibility(Visibility.Collapsed);
                 MoveToEnd(EndState.Lose);
             }
-            else if (playerHand.EvaluateHand() == 21 && playerHand.GetNumberOfCards() == 2)
+            else if (playerHand.EvaluateHand() == 21)
             {
-                SetGameScreenVisibility(Visibility.Collapsed);
-                //blackjack
-                //flip dealer card
-                PlaceCardInGUI(1, 0, dealerHand.GetCardAtIndex(0).ToImgString());
-                //and if blackjack wait for 1s then push,
-                if (dealerHand.EvaluateHand() == 21)
+                if(playerHand.GetNumberOfCards() == 2)
                 {
-                    //wait 1s
-                    //Thread.Sleep(1000);
-                    MoveToEnd(EndState.Push);
+                    SetGameScreenVisibility(Visibility.Collapsed);
+                    //blackjack
+                    //flip dealer card
+                    PlaceCardInGUI(1, 0, dealerHand.GetCardAtIndex(0).ToImgString());
+                    //and if blackjack wait for 1s then push,
+                    if (dealerHand.EvaluateHand() == 21)
+                    {
+                        MoveToEnd(EndState.Push);
+                    }
+                    else
+                    {
+                        MoveToEnd(EndState.BlackJackWin);
+                    }
                 }
                 else
                 {
-                    MoveToEnd(EndState.BlackJackWin);
+                    DealerTurn();
                 }
             }
         }
@@ -308,11 +315,11 @@ namespace BlackjackUWP
             CheckPlayerTotal();
         }
 
-        private void DealerTurn()
+        private void DealerTurn(bool playerDoubledDown = false)
         {
             //hide all buttons
             SetGameScreenVisibility(Visibility.Collapsed);
-            PlaceCardInGUI(1, 0, dealerHand.GetCardAtIndex(0).ToImgString());
+            FlipDealerCard();
             //original code (maybe try to use so we can say it was modified at least)
 
             //while (dealerScore < 17)
@@ -329,6 +336,22 @@ namespace BlackjackUWP
             while (handValue < 17)
             {
                 DealDealerCard(1);
+                handValue = dealerHand.EvaluateHand();
+            }
+            if(handValue > 21)
+            {
+                if(playerDoubledDown)
+                {
+                    MoveToEnd(EndState.DoubleDownWin);
+                }
+                else
+                {
+                    MoveToEnd(EndState.NormalWin);
+                }
+            }
+            else
+            {
+                CompareHands(playerDoubledDown);
             }
         }
 
@@ -336,32 +359,32 @@ namespace BlackjackUWP
         /// compare dealer and player hand
         /// 
         /// </summary>
-        private void CompareHands()
+        private void CompareHands(bool playerDoubledDown = false)
         {
-            int playerHandValue = playerHand.EvaluateHand();
-            int dealerHandValue = dealerHand.EvaluateHand();
-            playerHand.CompareTo(dealerHand);
-
-            if (playerHandValue == 21) //player has blackjack
+            switch(playerHand.CompareTo(dealerHand))
             {
-                if (dealerHandValue != 21)
-                {
-                    playerBalance += (int)(playerBet * 2.5);
-                }
-            }
-            //player and dealer have the same value
-            if (playerHandValue == dealerHandValue)
-            {
-                playerBalance += playerBet; //return players bet
-            }
-            else if (playerHandValue > dealerHandValue)
-            {
-                playerBalance += playerBet * 2; //return players bet * 2
+                case -1:
+                    MoveToEnd(EndState.Lose);
+                    break;
+                case 0:
+                    MoveToEnd(EndState.Push);
+                    break;
+                case 1:
+                    if (playerDoubledDown)
+                    {
+                        MoveToEnd(EndState.DoubleDownWin);
+                    }
+                    else
+                    {
+                        MoveToEnd(EndState.NormalWin);
+                    }
+                    break;
             }
         }
 
         private void MoveToEnd(EndState playerWon)
         {
+            FlipDealerCard();
             SetEndGameScreenVisibility(Visibility.Visible);
             SetGameScreenVisibility(Visibility.Collapsed);
             string endScreenMessage = "";
@@ -374,19 +397,24 @@ namespace BlackjackUWP
                     endScreenMessage = "You Pushed.\nYou didn't lose any money.";
                     break;
                 case EndState.NormalWin:
-                    endScreenMessage = $"You Won!\n You gained ${playerBalance - originalPlayerBalance}.";
                     UpdatePlayerBalance(playerBalance + playerBet * 2);
+                    endScreenMessage = $"You Won!\n You gained ${playerBalance - originalPlayerBalance}.";
                     break;
                 case EndState.DoubleDownWin:
+                    UpdatePlayerBalance(playerBalance + playerBet * 4);
                     endScreenMessage = $"You Won!\n You gained ${playerBalance - originalPlayerBalance}.";
-                    UpdatePlayerBalance(playerBalance + playerBet * 3);
                     break;
                 case EndState.BlackJackWin:
-                    endScreenMessage = $"You got a Blackjack!\n You gained ${playerBalance - originalPlayerBalance}.";
                     UpdatePlayerBalance(playerBalance + playerBet * 2.5);
+                    endScreenMessage = $"You got a Blackjack!\n You gained ${playerBalance - originalPlayerBalance}.";
                     break;
             }
             gameResultTxt.Text = endScreenMessage;
+        }
+
+        private void FlipDealerCard()
+        {
+            PlaceCardInGUI(1, 0, dealerHand.GetCardAtIndex(0).ToImgString());
         }
 
         //public void PlayGame()
