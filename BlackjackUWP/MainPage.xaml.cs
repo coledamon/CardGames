@@ -91,6 +91,7 @@ namespace BlackjackUWP
             {
                 image.Source = new BitmapImage(new Uri(this.BaseUri, "./images/blank.png"));
             }
+            if (deck.GetCardsRemaining() <= 26) deck.RestoreDeck();
             //instantiate the player
             playerHand = new BlackJackHand(/*playerBalance*/);
             //instantiate the dealer
