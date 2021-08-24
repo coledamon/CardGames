@@ -81,6 +81,7 @@ namespace CardGames
             foreach(var cards in usedDeck)
             {
                 deckOfCards.Add(cards);
+                if (cards.GetRank().Value == 1) cards.GetRank().Value = 14;
             }
             Shuffle();
         }
