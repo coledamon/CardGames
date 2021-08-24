@@ -43,6 +43,12 @@ namespace CardGames
             deckOfCards[2] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
             deckOfCards[3] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[1].RankName, Rank.VALUES[1].Value));
             deckOfCards[4] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[8].RankName, Rank.VALUES[8].Value));
+
+
+            //deckOfCards[0] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
+            //deckOfCards[1] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[12].RankName, Rank.VALUES[12].Value));
+            //deckOfCards[2] = new Card(Suit.VALUES[1], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
+            //deckOfCards[3] = new Card(Suit.VALUES[1], new Rank(Rank.VALUES[12].RankName, Rank.VALUES[12].Value));
         }
 
         public Card DealOne()

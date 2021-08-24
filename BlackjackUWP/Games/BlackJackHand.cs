@@ -52,7 +52,7 @@ namespace CardGames
                 }
                 else if (card.GetRank().ToString() == "A")
                 {
-                    handTotal += 11;
+                    handTotal += card.GetRank().Value == 1 ? 1 : 11;
                 }
             }
             return handTotal;

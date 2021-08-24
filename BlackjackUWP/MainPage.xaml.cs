@@ -97,7 +97,7 @@ namespace BlackjackUWP
             }
             deck = new Deck(6);
 
-            deck.setup();
+            //deck.setup();
             //instantiate the player
             playerHand = new BlackJackHand();
             //instantiate the dealer
@@ -122,6 +122,7 @@ namespace BlackjackUWP
         private void SetGameScreenVisibility(Visibility visibility)
         {
             GameScreen.Visibility = visibility;
+            doubleDownBtn.Visibility = visibility;
             curValTxt.Visibility = visibility;
         }
 
