@@ -18,7 +18,7 @@ namespace CardGames
 
         public override int EvaluateHand()
         {
-            int handTotal = CalculateHandTotal();            
+            int handTotal = CalculateHandTotal();
 
             if(handTotal > 21)
             {
