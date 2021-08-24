@@ -90,6 +90,10 @@ namespace BlackjackUWP
             {
                 image.Source = new BitmapImage(new Uri(this.BaseUri, "./images/blank.png"));
             }
+            foreach (Image image in dealerImages)
+            {
+                image.Source = new BitmapImage(new Uri(this.BaseUri, "./images/blank.png"));
+            }
             //instantiate the player
             playerHand = new BlackJackHand(/*playerBalance*/);
             //instantiate the dealer
