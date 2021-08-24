@@ -87,10 +87,16 @@ namespace BlackjackUWP
         /// </summary>
         private void InstantiateGame()
         {
+            foreach (Image image in playerImages)
+            {
+                image.Source = new BitmapImage(new Uri(this.BaseUri, "./images/blank.png"));
+            }
             //instantiate the player
             playerHand = new BlackJackHand(/*playerBalance*/);
             //instantiate the dealer
             dealerHand = new BlackJackHand(/*playerBalance*/);
+
+            
             //hide start screen
             SetStartScreenVisibility(Visibility.Collapsed);
             SetEndGameScreenVisibility(Visibility.Collapsed);
@@ -465,6 +471,10 @@ namespace BlackjackUWP
         //}
         private void playAgainBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (playerBalance <= 0)
+                UpdatePlayerBalance(500);
+
+            InstantiateGame();
         }
     }
 
