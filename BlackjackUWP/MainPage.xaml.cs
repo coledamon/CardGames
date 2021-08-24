@@ -35,6 +35,7 @@ namespace BlackjackUWP
         private List<Image> playerImages = new List<Image>();
         private List<Image> dealerImages = new List<Image>();
         private int playerBalance = 500;
+        private int originalPlayerBalance;
         private int playerBet;
         public MainPage()
         {
@@ -91,6 +92,7 @@ namespace BlackjackUWP
             dealerHand = new BlackJackHand(/*playerBalance*/);
             //hide start screen
             SetStartScreenVisibility(Visibility.Collapsed);
+            SetEndGameScreenVisibility(Visibility.Collapsed);
             //show bet screen
             SetBetScreenVisibility(Visibility.Visible);
         }
@@ -120,6 +122,12 @@ namespace BlackjackUWP
         private void SetTopBalanceVisibility(Visibility visibility)
         {
             balanceTopTxt.Visibility = visibility;
+        }
+
+        private void SetEndGameScreenVisibility(Visibility visibility)
+        {
+            gameResultTxt.Visibility = visibility;
+            playAgainBtn.Visibility = visibility;
         }
 
         private void HideDoubleDown()
@@ -180,7 +188,8 @@ namespace BlackjackUWP
         private void betBtn_Click(object sender, RoutedEventArgs e)
         {
             //validate bet amt
-            if (int.TryParse(betBox.Text, out int betValue) && Bet(betValue))
+            originalPlayerBalance = playerBalance;
+            if (int.TryParse(betBox.Text, out playerBet) && Bet())
             {
                 //user value
                 //hide error message
@@ -211,14 +220,12 @@ namespace BlackjackUWP
             betErrorTxt.Visibility = visibility;
         }
 
-        private bool Bet(int betValue)
+        private bool Bet()
         {
-            if (betValue > 0 && betValue <= playerBalance) //make sure user is within min and max bet values
+            if (playerBet > 0 && playerBet <= playerBalance) //make sure user is within min and max bet values
             {
                 //playerBalance -= (betValue - playerBet); //subtract the bet value from the user's balance
-                UpdatePlayerBalance(playerBalance - (betValue - playerBet)); //update all elements when updates playerbalance
-                playerBet = betValue;
-                betBox.Text = playerBet.ToString();
+                UpdatePlayerBalance(playerBalance - playerBet); //update all elements when updates playerbalance
                 return true;
             }
             return false;
@@ -233,11 +240,11 @@ namespace BlackjackUWP
         private void doubleDownBtn_Click(object sender, RoutedEventArgs e)
         {
             //take bet from playerbalance, deal one card, check if hand value over, move to dealerturn
-            Bet(playerBet);
+            Bet();
             DealPlayerCard(1);
             if (playerHand.EvaluateHand() > 21)
             {
-                MoveToEnd(false);
+                MoveToEnd(EndState.Lose);
             }
             else
             {
@@ -251,7 +258,7 @@ namespace BlackjackUWP
             {
                 //bust, move to end screen
                 SetGameScreenVisibility(Visibility.Collapsed);
-                MoveToEnd(false);
+                MoveToEnd(EndState.Lose);
             }
             else if (playerHand.EvaluateHand() == 21 && playerHand.GetNumberOfCards() == 2)
             {
@@ -263,12 +270,11 @@ namespace BlackjackUWP
                 if (dealerHand.EvaluateHand() == 21)
                 {
                     //wait 1s
-                    //push
-                    MoveToEnd(null);
+                    MoveToEnd(EndState.Push);
                 }
                 else
                 {
-                    //payout blackjack rate
+                    MoveToEnd(EndState.BlackJackWin);
                 }
             }
         }
@@ -321,6 +327,7 @@ namespace BlackjackUWP
         {
             int playerHandValue = playerHand.EvaluateHand();
             int dealerHandValue = dealerHand.EvaluateHand();
+            playerHand.CompareTo(dealerHand);
 
             if (playerHandValue == 21) //player has blackjack
             {
@@ -340,128 +347,121 @@ namespace BlackjackUWP
             }
         }
 
-        private void MoveToEnd(bool? playerWon)
+        private void MoveToEnd(EndState playerWon)
         {
-            //true, player win
-            //false, player lose
-            //null, push
-
-            //original code (maybe try to use so we can say it was modified at least)
-
-            //if (dealerScore >= 17 && dealerScore <= 21)
-            //{
-            //    if (dealerHand.CompareTo(playerHand) == 0)
-            //    {
-            //        //Console.WriteLine("Tie!");
-            //    }
-            //    else if (dealerHand.CompareTo(playerHand) == 1)
-            //    {
-            //        //Console.WriteLine("Dealer wins!");
-            //    }
-            //    else
-            //    {
-            //        //Console.WriteLine("Player wins!");
-            //    }
-            //}
-            //else
-            //{
-            //    //Console.WriteLine("Bust!");
-            //    //Console.WriteLine("Player wins!");
-            //}
-            throw new NotImplementedException();
+            SetEndGameScreenVisibility(Visibility.Visible);
+            SetGameScreenVisibility(Visibility.Collapsed);
+            string endScreenMessage = "";
+            switch (playerWon)
+            {
+                case EndState.Lose:
+                    endScreenMessage = $"You Lost ${originalPlayerBalance - playerBalance}!\nTry Again!";
+                    break;
+                case EndState.Push:
+                    endScreenMessage = "You Pushed.\nYou didn't lose any money.";
+                    break;
+                case EndState.NormalWin:
+                    endScreenMessage = $"You Won!\n You gained ${playerBalance - originalPlayerBalance}.";
+                    break;
+                case EndState.DoubleDownWin:
+                    endScreenMessage = $"You Won!\n You gained ${playerBalance - originalPlayerBalance}.";
+                    break;
+                case EndState.BlackJackWin:
+                    endScreenMessage = $"You got a Blackjack!\n You gained ${playerBalance - originalPlayerBalance}.";
+                    break;
+            }
+            gameResultTxt.Text = endScreenMessage;
         }
 
-        public void PlayGame()
-        {
-            //string playerInput = "";
-            //find the player's current score
-            playerScore = playerHand.EvaluateHand();
-            if (playerScore > 21) //player's starting hand was over 21
-            {
-                gameOver = true;
-            }
-            else
-            {
-                //Console.WriteLine("Hit or Stay (H/S)");
-                //playerInput = Console.ReadLine();
-                //while (!gameOver) //run while game 
-                //{
-                playerHand.cardsInHand.Add(deck.DealOne());
-                //Console.WriteLine("You have been dealt the {0}", player.cardsInHand.Last());
-                playerScore = playerHand.EvaluateHand();
-                //Console.WriteLine("Hand score: {0}", playerScore);
-                if (playerScore > 21)
-                {
-                    gameOver = !gameOver;
-                    //Console.WriteLine("Bust!");
-                    //break;
-                }
-                //Console.WriteLine("Hit or Stay (H/S)");
-                //playerInput = Console.ReadLine();
-                playerScore = playerHand.EvaluateHand();
-                //}
-                //else
-                //{
-                //dealer = new BlackJackHand();
-                dealerHand.cardsInHand.Add(deck.DealOne());
-                dealerHand.cardsInHand.Add(deck.DealOne());
-                dealerScore = dealerHand.EvaluateHand();
-                foreach (Card card in dealerHand.cardsInHand)
-                {
-                    //Console.WriteLine("Dealer hasss been dealt the {0}", card);
-                }
-                //Console.WriteLine("Dealer score: {0}", dealerScore);
-                if (dealerScore > 21)
-                {
-                    //Console.WriteLine("Bust!");
-                    //TODO: Implement game over function
-                }
-                else
-                {
-                    while (dealerScore < 17)
-                    {
-                        dealerHand.cardsInHand.Add(deck.DealOne());
-                        //Console.WriteLine("Dealer have been dealt the {0}", dealer.cardsInHand.Last());
-                        dealerScore = dealerHand.EvaluateHand();
-                        //Console.WriteLine(dealerScore);
-                    }
-                    if (dealerScore >= 17 && dealerScore <= 21)
-                    {
-                        if (dealerHand.CompareTo(playerHand) == 0)
-                        {
-                            //Console.WriteLine("Tie!");
-                        }
-                        else if (dealerHand.CompareTo(playerHand) == 1)
-                        {
-                            //Console.WriteLine("Dealer wins!");
-                        }
-                        else
-                        {
-                            //Console.WriteLine("Player wins!");
-                        }
-                    }
-                    else
-                    {
-                        //Console.WriteLine("Bust!");
-                        //Console.WriteLine("Player wins!");
-                    }
-                    //}
-                }
-            }
-            deck.RestoreDeck();
-            deck.Shuffle();
-            playerHand.DiscardHand();
-            if (!dealerHand.IsEmpty())
-            {
-                dealerHand.DiscardHand();
-            }
-        }
-        private static bool CheckForGameOver(BlackJackHand hand)
-        {
-            return hand.EvaluateHand() < 21 ? false : true;
-        }
+        //public void PlayGame()
+        //{
+        //    //string playerInput = "";
+        //    //find the player's current score
+        //    playerScore = playerHand.EvaluateHand();
+        //    if (playerScore > 21) //player's starting hand was over 21
+        //    {
+        //        gameOver = true;
+        //    }
+        //    else
+        //    {
+        //        //Console.WriteLine("Hit or Stay (H/S)");
+        //        //playerInput = Console.ReadLine();
+        //        //while (!gameOver) //run while game 
+        //        //{
+        //        playerHand.cardsInHand.Add(deck.DealOne());
+        //        //Console.WriteLine("You have been dealt the {0}", player.cardsInHand.Last());
+        //        playerScore = playerHand.EvaluateHand();
+        //        //Console.WriteLine("Hand score: {0}", playerScore);
+        //        if (playerScore > 21)
+        //        {
+        //            gameOver = !gameOver;
+        //            //Console.WriteLine("Bust!");
+        //            //break;
+        //        }
+        //        //Console.WriteLine("Hit or Stay (H/S)");
+        //        //playerInput = Console.ReadLine();
+        //        playerScore = playerHand.EvaluateHand();
+        //        //}
+        //        //else
+        //        //{
+        //        //dealer = new BlackJackHand();
+        //        dealerHand.cardsInHand.Add(deck.DealOne());
+        //        dealerHand.cardsInHand.Add(deck.DealOne());
+        //        dealerScore = dealerHand.EvaluateHand();
+        //        foreach (Card card in dealerHand.cardsInHand)
+        //        {
+        //            //Console.WriteLine("Dealer hasss been dealt the {0}", card);
+        //        }
+        //        //Console.WriteLine("Dealer score: {0}", dealerScore);
+        //        if (dealerScore > 21)
+        //        {
+        //            //Console.WriteLine("Bust!");
+        //            //TODO: Implement game over function
+        //        }
+        //        else
+        //        {
+        //            while (dealerScore < 17)
+        //            {
+        //                dealerHand.cardsInHand.Add(deck.DealOne());
+        //                //Console.WriteLine("Dealer have been dealt the {0}", dealer.cardsInHand.Last());
+        //                dealerScore = dealerHand.EvaluateHand();
+        //                //Console.WriteLine(dealerScore);
+        //            }
+        //            if (dealerScore >= 17 && dealerScore <= 21)
+        //            {
+        //                if (dealerHand.CompareTo(playerHand) == 0)
+        //                {
+        //                    //Console.WriteLine("Tie!");
+        //                }
+        //                else if (dealerHand.CompareTo(playerHand) == 1)
+        //                {
+        //                    //Console.WriteLine("Dealer wins!");
+        //                }
+        //                else
+        //                {
+        //                    //Console.WriteLine("Player wins!");
+        //                }
+        //            }
+        //            else
+        //            {
+        //                //Console.WriteLine("Bust!");
+        //                //Console.WriteLine("Player wins!");
+        //            }
+        //            //}
+        //        }
+        //    }
+        //    deck.RestoreDeck();
+        //    deck.Shuffle();
+        //    playerHand.DiscardHand();
+        //    if (!dealerHand.IsEmpty())
+        //    {
+        //        dealerHand.DiscardHand();
+        //    }
+        //}
         private void playAgainBtn_Click(object sender, RoutedEventArgs e)
         {
         }
     }
+
+    public enum EndState { Lose, Push, NormalWin, DoubleDownWin, BlackJackWin }
 }
