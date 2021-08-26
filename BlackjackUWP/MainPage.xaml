@@ -32,7 +32,7 @@
 
 
         <!--Starting Screen-->
-        <StackPanel x:Name="StartingScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+        <StackPanel x:Name="StartingScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible">
             <Button x:Name="startBtn" Visibility="Visible" Click="startBtn_Click" Content="Start" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238"/>
             <Button x:Name="newGameBtn" Visibility="Visible" Click="newGameBtn_Click" Content="New Game" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238"/>
         </StackPanel>
@@ -99,17 +99,110 @@
         </StackPanel>
 
         <!--shop screen-->
-        <StackPanel x:Name="shopscreen" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" Orientation="Horizontal">
+        <StackPanel x:Name="shopscreen" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"  Orientation="Horizontal">
             <StackPanel Margin="5">
-                <Button x:Name="black" Visibility="Visible" Click="color_Click"  Content="Black(100)" FontSize="36" Foreground="white" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Black"/>
-                <Button x:Name="blue" Visibility="Visible" Click="color_Click"  Content="Blue(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Blue"/>
-                <Button x:Name="gray" Visibility="Visible" Click="color_Click"  Content="Gray(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Gray"/>
-                <Button x:Name="green" Visibility="Visible" Click="color_Click"  Content="Green(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Green"/>
+                <Button x:Name="black" Visibility="Visible" Click="color_Click"  Content="Black(100)" FontSize="36" Foreground="white" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Black">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Black"/>
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Black"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="blue" Visibility="Visible" Click="color_Click"  Content="Blue(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Blue">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Blue"/>
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Blue"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="gray" Visibility="Visible" Click="color_Click"  Content="Gray(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Gray">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Gray"/>
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Gray"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="green" Visibility="Visible" Click="color_Click"  Content="Green(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Green">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Green"/>
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Green"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
             </StackPanel>
             <StackPanel Margin="5">
-                <Button x:Name="purple" Visibility="Visible" Click="color_Click"  Content="Purple(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Purple"/>
-                <Button x:Name="red" Visibility="Visible" Click="color_Click"  Content="Red(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="red"/>
-                <Button x:Name="yellow" Visibility="Visible" Click="color_Click"  Content="Yellow(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Yellow"/>
+                <Button x:Name="purple" Visibility="Visible" Click="color_Click"  Content="Purple(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Purple">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Purple"/>
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Purple"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="red" Visibility="Visible" Click="color_Click"  Content="Red(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="red">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="red"/>
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="red"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="yellow" Visibility="Visible" Click="color_Click"  Content="Yellow(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Yellow">
+                    <Button.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.ThemeDictionaries>
+                                <ResourceDictionary x:Key="Dark">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Yellow"/>
+                                </ResourceDictionary>
+                                <ResourceDictionary x:Key="Light">
+                                    <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Yellow"/>
+                                </ResourceDictionary>
+                            </ResourceDictionary.ThemeDictionaries>
+                        </ResourceDictionary>
+                    </Button.Resources>
+                </Button>
                 <Button x:Name="backBtn" Visibility="Visible" Click="backBtn_Click"  Content="Back" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238"/>
             </StackPanel>
         </StackPanel>

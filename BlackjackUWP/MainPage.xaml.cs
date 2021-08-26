@@ -159,6 +159,7 @@ namespace BlackjackUWP
             SetBetScreenVisibility(visibility);
             SetBetErrorVisibility(visibility);
             SetGameScreenVisibility(visibility);
+            SetshopscreenVisibility(visibility);
             GameOver.Visibility = visibility;
         }
 
@@ -553,6 +554,7 @@ namespace BlackjackUWP
         private Visibility betErrorVisibility;
         private Visibility gameVisibility;
         private Visibility gameOverVisibility;
+        private Visibility shopVisibility;
 
         private void changeDealerBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -573,6 +575,7 @@ namespace BlackjackUWP
             SetBetScreenVisibility(betVisibility);
             SetBetErrorVisibility(betErrorVisibility);
             SetGameScreenVisibility(gameVisibility);
+            SetshopscreenVisibility(shopVisibility);
             GameOver.Visibility = gameOverVisibility;
         }
 
@@ -583,6 +586,7 @@ namespace BlackjackUWP
             betErrorVisibility = betErrorTxt.Visibility;
             gameVisibility = GameScreen.Visibility;
             gameOverVisibility = GameOver.Visibility;
+            shopVisibility = shopscreen.Visibility;
 
             SetSettingsVisibility(Visibility.Visible);
             SetAllVisibility(Visibility.Collapsed);
