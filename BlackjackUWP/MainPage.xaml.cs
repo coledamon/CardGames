@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using CardGames;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -30,14 +31,14 @@ namespace BlackjackUWP
         private BlackJackHand playerHand;
         private BlackJackHand dealerHand;
         private Deck deck = new Deck(6);
-        private int dealerScore = 0;
-        private int playerScore = 0;
-        private bool gameOver = false;
         private List<Image> playerImages = new List<Image>();
         private List<Image> dealerImages = new List<Image>();
         private double playerBalance = 500;
         private double originalPlayerBalance;
         private double playerBet;
+
+        private int dealerSlowdown = 500;
+
         public MainPage()
         {
             DataContext = this;
@@ -122,7 +123,14 @@ namespace BlackjackUWP
         private void SetGameScreenVisibility(Visibility visibility)
         {
             GameScreen.Visibility = visibility;
-            doubleDownBtn.Visibility = visibility;
+            if (playerBalance < playerBet || playerHand?.GetNumberOfCards() > 2)
+            {
+                HideDoubleDown();
+            }
+            else
+            {
+                doubleDownBtn.Visibility = visibility;
+            }
             curValTxt.Visibility = visibility;
         }
 
@@ -133,6 +141,20 @@ namespace BlackjackUWP
 
         private void SetEndGameScreenVisibility(Visibility visibility)
         {
+            GameOver.Visibility = visibility;
+        }
+
+        private void SetSettingsVisibility(Visibility visibility)
+        {
+            DealerSettings.Visibility = visibility;
+            settingsButton.Visibility = visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
+        private void SetAllVisibility(Visibility visibility)
+        {
+            SetStartScreenVisibility(visibility);
+            SetBetScreenVisibility(visibility);
+            SetBetErrorVisibility(visibility);
+            SetGameScreenVisibility(visibility);
             GameOver.Visibility = visibility;
         }
 
@@ -147,7 +169,7 @@ namespace BlackjackUWP
                 Card card = deck.DealOne();
                 playerHand.AddCard(card);
                 PlaceCardInGUI(0, playerHand.GetNumberOfCards() - 1, card.ToImgString());
-                curValTxt.Text = playerHand.EvaluateHand().ToString();
+                curValTxt.Text = "Current Value: " + playerHand.EvaluateHand();
             }
         }
         private void DealDealerCard(int numOfCards, bool faceDown = false)
@@ -191,7 +213,7 @@ namespace BlackjackUWP
             char key = (char)e.Key;
             e.Handled = !((key >= 48 && key <= 57)/*numbers*/ || (key >= 96 && key <= 105)/*numpad*/ || key == 8/*backspace*/ || key == 46/*delete*/|| (key >= 37 && key <= 40)/*arrows*/);
         }
-        private void betBtn_Click(object sender, RoutedEventArgs e)
+        private async void betBtn_Click(object sender, RoutedEventArgs e)
         {
             //validate bet amt
             originalPlayerBalance = playerBalance;
@@ -203,14 +225,18 @@ namespace BlackjackUWP
                 //hide bet screen
                 SetBetScreenVisibility(Visibility.Collapsed);
                 //show game screen
-                SetGameScreenVisibility(Visibility.Visible);
                 SetTopBalanceVisibility(Visibility.Visible);
 
                 //deal the player and dealer two cards each
+                await Task.Delay(250);
                 DealPlayerCard(1);
+                await Task.Delay(dealerSlowdown);
                 DealDealerCard(1, true);
+                await Task.Delay(dealerSlowdown);
                 DealPlayerCard(1);
+                await Task.Delay(dealerSlowdown);
                 DealDealerCard(1);
+                SetGameScreenVisibility(Visibility.Visible);
 
                 //check for blackjack (if so move to dealer turn)
                 CheckPlayerTotal();
@@ -245,7 +271,7 @@ namespace BlackjackUWP
         /// <param name="e"></param>
         private void doubleDownBtn_Click(object sender, RoutedEventArgs e)
         {
-            //take bet from playerbalance, deal one card, check if hand value over, move to dealerturn
+            //take bet from playerbalance, deal one card, check if hand value over, move to dealer turn
             Bet();
             DealPlayerCard(1);
             if (playerHand.EvaluateHand() > 21)
@@ -307,26 +333,17 @@ namespace BlackjackUWP
             CheckPlayerTotal();
         }
 
-        private void DealerTurn(bool playerDoubledDown = false)
+        private async void DealerTurn(bool playerDoubledDown = false)
         {
             //hide all buttons
             SetGameScreenVisibility(Visibility.Collapsed);
             FlipDealerCard();
-            //original code (maybe try to use so we can say it was modified at least)
 
-            //while (dealerScore < 17)
-            //{
-            //    dealerHand.cardsInHand.Add(deck.DealOne());
-            //    //Console.WriteLine("Dealer have been dealt the {0}", dealer.cardsInHand.Last());
-            //    dealerScore = dealerHand.EvaluateHand();
-            //    //Console.WriteLine(dealerScore);
-            //}
-
-            //Thread.Sleep(3000);
             int handValue = dealerHand.EvaluateHand();
 
             while (handValue < 17)
             {
+                await Task.Delay(dealerSlowdown);
                 DealDealerCard(1);
                 handValue = dealerHand.EvaluateHand();
             }
@@ -506,6 +523,48 @@ namespace BlackjackUWP
         {
             
         }
+
+        private Visibility startVisibility;
+        private Visibility betVisibility;
+        private Visibility betErrorVisibility;
+        private Visibility gameVisibility;
+        private Visibility gameOverVisibility;
+
+        private void changeDealerBtn_Click(object sender, RoutedEventArgs e)
+        {
+            int curSlow = dealerSlowdown;
+            if(int.TryParse(slowdownBox.Text, out dealerSlowdown))
+            {
+                slowdownBox.PlaceholderText = "Current Value: " + dealerSlowdown;
+            }
+            else
+            {
+                dealerSlowdown = curSlow;
+            }
+            slowdownBox.Text = "";
+            
+            SetSettingsVisibility(Visibility.Collapsed);
+
+            SetStartScreenVisibility(startVisibility);
+            SetBetScreenVisibility(betVisibility);
+            SetBetErrorVisibility(betErrorVisibility);
+            SetGameScreenVisibility(gameVisibility);
+            GameOver.Visibility = gameOverVisibility;
+        }
+
+        private void settingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            startVisibility = StartingScreen.Visibility;
+            betVisibility = BettingScreen.Visibility;
+            betErrorVisibility = betErrorTxt.Visibility;
+            gameVisibility = GameScreen.Visibility;
+            gameOverVisibility = GameOver.Visibility;
+
+            SetSettingsVisibility(Visibility.Visible);
+            SetAllVisibility(Visibility.Collapsed);
+        }
+
+
     }
 
     public enum EndState { Lose, Push, NormalWin, DoubleDownWin, BlackJackWin }
