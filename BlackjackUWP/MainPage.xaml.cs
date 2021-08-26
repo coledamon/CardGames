@@ -143,6 +143,10 @@ namespace BlackjackUWP
         {
             GameOver.Visibility = visibility;
         }
+        private void SetshopscreenVisibility(Visibility visibility)
+        {
+            shopscreen.Visibility = visibility;
+        }
 
         private void SetSettingsVisibility(Visibility visibility)
         {
@@ -181,10 +185,10 @@ namespace BlackjackUWP
                 PlaceCardInGUI(1, dealerHand.GetNumberOfCards() - 1, card.ToImgString(), faceDown);
             }
         }
-
+        private string cardback = "./images/red_back.png";
         private void PlaceCardInGUI(int player, int place, string imageString, bool faceDown = false)
         {
-            if (faceDown) imageString = "./images/red_back.png";
+            if (faceDown) imageString=cardback;
             BitmapImage bitmapImage = new BitmapImage(new Uri(this.BaseUri, imageString));
             if (player == 0)//player hand
             {
@@ -521,7 +525,27 @@ namespace BlackjackUWP
 
         private void shopBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+            SetshopscreenVisibility(Visibility.Visible);
+            SetBetScreenVisibility(Visibility.Collapsed);
+        }
+        private void color_Click(object sender, RoutedEventArgs e)
+        {
+            if (playerBalance > 100)//purposely not >=
+            {
+                UpdatePlayerBalance(playerBalance - 100);
+                Button button = (Button)sender;
+                cardback = "./images/" + button.Name + "_back.png";
+            }
+            else
+            {
+                //can't think of anything, textbox maybe to say they can't buy
+            }
+        }
+
+        private void backBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SetshopscreenVisibility(Visibility.Collapsed);
+            SetBetScreenVisibility(Visibility.Visible);
         }
 
         private Visibility startVisibility;
