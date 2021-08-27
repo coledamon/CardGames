@@ -457,7 +457,7 @@ namespace BlackjackUWP
             else if (playerBalance == 100)
             {
                 //change if you want
-                shopMessageTxt.Text = "Can't do much without any money. Come back when you've got more.";
+                shopMessageTxt.Text = "If you do that, you'll have no money. Probably not the best choice.";
             }
             else
             {
