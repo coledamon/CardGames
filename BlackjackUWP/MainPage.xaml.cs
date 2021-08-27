@@ -454,6 +454,11 @@ namespace BlackjackUWP
                 cardback = "./images/" + button.Name + "_back.png";
                 shopMessageTxt.Text = $"{button.Name.Substring(0,1).ToUpper()+button.Name.Substring(1)} Successfully Purchased.";
             }
+            else if (playerBalance == 100)
+            {
+                //change if you want
+                shopMessageTxt.Text = "what are you going to do with a Balance of 0 stupid.";
+            }
             else
             {
                 shopMessageTxt.Text = "Not enough money to complete purchase.";
