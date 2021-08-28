@@ -45,6 +45,7 @@ namespace CardGames
             // play a CardCountGame
             CardCountGame.PlayGame();
             BlackJackGame.PlayGame();
+            //Console.Read();
         }
     }
 }
