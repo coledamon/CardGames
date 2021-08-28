@@ -103,22 +103,6 @@
             <TextBlock x:Name="shopTitle" Text="Card Back Shop" Foreground="Black" FontSize="48" TextAlignment="Center"></TextBlock>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Margin="5">
-                    <Button x:Name="black" Visibility="Visible" Click="color_Click"  Content="Black(100)" FontSize="36" Foreground="white" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Black">
-                        <Button.Resources>
-                            <ResourceDictionary>
-                                <ResourceDictionary.ThemeDictionaries>
-                                    <ResourceDictionary x:Key="Dark">
-                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
-                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Black"/>
-                                    </ResourceDictionary>
-                                    <ResourceDictionary x:Key="Light">
-                                        <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="White"/>
-                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Black"/>
-                                    </ResourceDictionary>
-                                </ResourceDictionary.ThemeDictionaries>
-                            </ResourceDictionary>
-                        </Button.Resources>
-                    </Button>
                     <Button x:Name="blue" Visibility="Visible" Click="color_Click"  Content="Blue(100)" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Blue">
                         <Button.Resources>
                             <ResourceDictionary>
@@ -205,9 +189,9 @@
                             </ResourceDictionary>
                         </Button.Resources>
                     </Button>
-                    <Button x:Name="backBtn" Visibility="Visible" Click="backBtn_Click"  Content="Back" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238"/>
                 </StackPanel>
             </StackPanel>
+            <Button x:Name="backBtn" Visibility="Visible" Click="backBtn_Click"  Content="Back" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" HorizontalAlignment="Center"/>
             <TextBlock x:Name="shopMessageTxt" FontSize="36" Foreground="Black" TextAlignment="Center" Text="" TextWrapping="Wrap" Width="490"></TextBlock>
         </StackPanel>
 
