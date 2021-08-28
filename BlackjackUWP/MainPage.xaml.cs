@@ -65,7 +65,10 @@ namespace BlackjackUWP
             if (await storageFolder.TryGetItemAsync("balance.txt") != null)
             {
                 StorageFile storageFile = await storageFolder.GetFileAsync("balance.txt");
-                num = int.Parse(await FileIO.ReadTextAsync(storageFile));
+                string text = await FileIO.ReadTextAsync(storageFile);
+                string[] readValue = text.Split("|");
+                num = int.Parse(readValue[0]);
+                cardback = "./images/" + readValue[1] + "_back.png";
             }
             UpdatePlayerBalance(num);//read in player balance
             InstantiateGame();
@@ -187,6 +190,7 @@ namespace BlackjackUWP
             }
         }
         private string cardback = "./images/red_back.png";
+        private string cardColor = "red";
         private void PlaceCardInGUI(int player, int place, string imageString, bool faceDown = false)
         {
             if (faceDown) imageString=cardback;
@@ -210,7 +214,7 @@ namespace BlackjackUWP
                 await storageFolder.CreateFileAsync("balance.txt");
             }
             StorageFile storageFile = await storageFolder.GetFileAsync("balance.txt");
-            await FileIO.WriteTextAsync(storageFile, playerBalance.ToString());
+            await FileIO.WriteTextAsync(storageFile, playerBalance.ToString() + "|" + cardColor);
             Application.Current.Exit();
         }
         private void betBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -449,10 +453,18 @@ namespace BlackjackUWP
         {
             if (playerBalance > 100)//purposely not >=
             {
-                UpdatePlayerBalance(playerBalance - 100);
                 Button button = (Button)sender;
-                cardback = "./images/" + button.Name + "_back.png";
-                shopMessageTxt.Text = $"{button.Name.Substring(0,1).ToUpper()+button.Name.Substring(1)} Successfully Purchased.";
+                if (cardback == "./images/" + button.Name + "_back.png")
+                {
+                    shopMessageTxt.Text = "You already have this color equipped, no need to buy it again.";
+                }
+                else
+                {
+                    UpdatePlayerBalance(playerBalance - 100);
+                    cardback = "./images/" + button.Name + "_back.png";
+                    cardColor = button.Name;
+                    shopMessageTxt.Text = $"{button.Name.Substring(0, 1).ToUpper() + button.Name.Substring(1)} Successfully Purchased.";
+                }
             }
             else if (playerBalance == 100)
             {
