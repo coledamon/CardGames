@@ -69,9 +69,9 @@ namespace BlackjackUWP
                 StorageFile storageFile = await storageFolder.GetFileAsync("balance.txt");
                 string text = await FileIO.ReadTextAsync(storageFile);
                 string[] readValue = text.Split("|");
-                num = int.Parse(readValue[0]);
+                int.TryParse(readValue[0], out num);
 
-                dealerSlowdown = int.Parse(readValue[1]);
+                int.TryParse(readValue[1], out dealerSlowdown);
                 slowdownBox.PlaceholderText = "Current Value: " + dealerSlowdown;
 
                 cardback = "./images/" + readValue[2] + "_back.png";
