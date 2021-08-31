@@ -70,8 +70,13 @@ namespace BlackjackUWP
                 string text = await FileIO.ReadTextAsync(storageFile);
                 string[] readValue = text.Split("|");
                 num = int.Parse(readValue[0]);
-                cardback = "./images/" + readValue[1] + "_back.png";
-                for(int i = 2; i < readValue.Length; i++)
+
+                dealerSlowdown = int.Parse(readValue[1]);
+                slowdownBox.PlaceholderText = "Current Value: " + dealerSlowdown;
+
+                cardback = "./images/" + readValue[2] + "_back.png";
+
+                for(int i = 3; i < readValue.Length; i++)
                 {
                     inventory.Add(readValue[i]);
                 }
@@ -247,7 +252,7 @@ namespace BlackjackUWP
                 await storageFolder.CreateFileAsync("balance.txt");
             }
             StorageFile storageFile = await storageFolder.GetFileAsync("balance.txt");
-            await FileIO.WriteTextAsync(storageFile, playerBalance.ToString() + "|" + cardColor + "|" + string.Join("|", inventory));
+            await FileIO.WriteTextAsync(storageFile, $"{playerBalance}|{dealerSlowdown}|{cardColor}|" + string.Join("|", inventory));
             Application.Current.Exit();
         }
         private void betBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
