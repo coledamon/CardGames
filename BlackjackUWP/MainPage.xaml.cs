@@ -160,11 +160,27 @@ namespace BlackjackUWP
         private void SetshopscreenVisibility(Visibility visibility)
         {
             shopscreen.Visibility = visibility;
+            blue.Visibility = inventory.Contains("blue") ? Visibility.Collapsed : Visibility.Visible;
+            red.Visibility = inventory.Contains("red") ? Visibility.Collapsed : Visibility.Visible;
+            gray.Visibility = inventory.Contains("gray") ? Visibility.Collapsed : Visibility.Visible;
+            purple.Visibility = inventory.Contains("purple") ? Visibility.Collapsed : Visibility.Visible;
+            yellow.Visibility = inventory.Contains("yellow") ? Visibility.Collapsed : Visibility.Visible;
+            green.Visibility = inventory.Contains("green") ? Visibility.Collapsed : Visibility.Visible;
+            if(inventory.Count == 6)
+            {
+                shopMessageTxt.Text = "All color options purchased. Go to your inventory to equip.";
+            }
         }
 
         private void SetInventoryScreenVisibility(Visibility visibility)
         {
             invScreen.Visibility = visibility;
+            invblue.Visibility = inventory.Contains("blue") ? Visibility.Visible : Visibility.Collapsed;
+            invred.Visibility = inventory.Contains("red") ? Visibility.Visible : Visibility.Collapsed;
+            invgray.Visibility = inventory.Contains("gray") ? Visibility.Visible : Visibility.Collapsed;
+            invpurple.Visibility = inventory.Contains("purple") ? Visibility.Visible : Visibility.Collapsed;
+            invyellow.Visibility = inventory.Contains("yellow") ? Visibility.Visible : Visibility.Collapsed;
+            invgreen.Visibility = inventory.Contains("green") ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void SetSettingsVisibility(Visibility visibility)
@@ -269,7 +285,7 @@ namespace BlackjackUWP
             }
             else
             {
-                SetBetErrorVisibility(Visibility.Visible, "Bet error invalid, please try again.");
+                SetBetErrorVisibility(Visibility.Visible, "Bet amount invalid, please try again.");
             }
         }
         private void SetBetErrorVisibility(Visibility visibility, string message = "")
@@ -481,7 +497,12 @@ namespace BlackjackUWP
                     cardback = "./images/" + button.Name + "_back.png";
                     cardColor = button.Name;
                     inventory.Add(cardColor);
-                    shopMessageTxt.Text = $"{button.Name.Substring(0, 1).ToUpper() + button.Name.Substring(1)} Successfully Purchased.";
+                    button.Visibility = Visibility.Collapsed;
+                    shopMessageTxt.Text = $"{button.Name.Substring(0, 1).ToUpper() + button.Name.Substring(1)} Successfully Purchased and Equipped.";
+                    if (inventory.Count == 6)
+                    {
+                        shopMessageTxt.Text = "All color options purchased. Go to your inventory to equip.";
+                    }
                 }
             }
             else if (playerBalance == 100)
