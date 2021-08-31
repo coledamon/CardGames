@@ -37,6 +37,8 @@ namespace BlackjackUWP
         private double originalPlayerBalance;
         private double playerBet;
 
+        private List<string> inventory = new List<string>();
+
         private int dealerSlowdown = 500;
 
         public MainPage()
@@ -69,12 +71,21 @@ namespace BlackjackUWP
                 string[] readValue = text.Split("|");
                 num = int.Parse(readValue[0]);
                 cardback = "./images/" + readValue[1] + "_back.png";
+                for(int i = 2; i < readValue.Length; i++)
+                {
+                    inventory.Add(readValue[i]);
+                }
+            }
+            else
+            {
+                inventory.Add("red");
             }
             UpdatePlayerBalance(num);//read in player balance
             InstantiateGame();
         }
         private void newGameBtn_Click(object sender, RoutedEventArgs e)
         {
+            inventory.Add("red");
             UpdatePlayerBalance(500);
             InstantiateGame();
         }
@@ -151,6 +162,11 @@ namespace BlackjackUWP
             shopscreen.Visibility = visibility;
         }
 
+        private void SetInventoryScreenVisibility(Visibility visibility)
+        {
+            invScreen.Visibility = visibility;
+        }
+
         private void SetSettingsVisibility(Visibility visibility)
         {
             DealerSettings.Visibility = visibility;
@@ -163,6 +179,7 @@ namespace BlackjackUWP
             SetBetErrorVisibility(visibility);
             SetGameScreenVisibility(visibility);
             SetshopscreenVisibility(visibility);
+            SetInventoryScreenVisibility(visibility);
             GameOver.Visibility = visibility;
         }
 
@@ -214,7 +231,7 @@ namespace BlackjackUWP
                 await storageFolder.CreateFileAsync("balance.txt");
             }
             StorageFile storageFile = await storageFolder.GetFileAsync("balance.txt");
-            await FileIO.WriteTextAsync(storageFile, playerBalance.ToString() + "|" + cardColor);
+            await FileIO.WriteTextAsync(storageFile, playerBalance.ToString() + "|" + cardColor + "|" + string.Join("|", inventory));
             Application.Current.Exit();
         }
         private void betBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -454,15 +471,16 @@ namespace BlackjackUWP
             if (playerBalance > 100)//purposely not >=
             {
                 Button button = (Button)sender;
-                if (cardback == "./images/" + button.Name + "_back.png")
+                if (inventory.Contains(button.Name))
                 {
-                    shopMessageTxt.Text = "You already have this color equipped, no need to buy it again.";
+                    shopMessageTxt.Text = "You already own this color, no need to buy it again.";
                 }
                 else
                 {
                     UpdatePlayerBalance(playerBalance - 100);
                     cardback = "./images/" + button.Name + "_back.png";
                     cardColor = button.Name;
+                    inventory.Add(cardColor);
                     shopMessageTxt.Text = $"{button.Name.Substring(0, 1).ToUpper() + button.Name.Substring(1)} Successfully Purchased.";
                 }
             }
@@ -491,6 +509,7 @@ namespace BlackjackUWP
         private Visibility gameVisibility;
         private Visibility gameOverVisibility;
         private Visibility shopVisibility;
+        private Visibility invVisibility;
 
         private void changeDealerBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -512,6 +531,7 @@ namespace BlackjackUWP
             SetBetErrorVisibility(betErrorVisibility);
             SetGameScreenVisibility(gameVisibility);
             SetshopscreenVisibility(shopVisibility);
+            SetInventoryScreenVisibility(invVisibility);
             GameOver.Visibility = gameOverVisibility;
         }
 
@@ -523,12 +543,49 @@ namespace BlackjackUWP
             gameVisibility = GameScreen.Visibility;
             gameOverVisibility = GameOver.Visibility;
             shopVisibility = shopscreen.Visibility;
+            invVisibility = invScreen.Visibility;
 
             SetSettingsVisibility(Visibility.Visible);
             SetAllVisibility(Visibility.Collapsed);
         }
 
+        private void inventoryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SetInventoryScreenVisibility(Visibility.Visible);
+            SetBetScreenVisibility(Visibility.Collapsed);
+            SetTopBalanceVisibility(Visibility.Visible);
+        }
 
+        private void color_Inv_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            string color = button.Name.Substring(3);
+            if (inventory.Contains(color))
+            {
+                if (cardback == "./images/" + color + "_back.png")
+                {
+                    invMessageTxt.Text = "You already have this color equipped.";
+                }
+                else
+                {
+                    cardback = "./images/" + color + "_back.png";
+                    cardColor = color;
+                    invMessageTxt.Text = $"{color.Substring(0, 1).ToUpper() + color.Substring(1)} Successfully Equipped.";
+                }
+            }
+            else
+            {
+                invMessageTxt.Text = "You'll need to purchase this color first.";
+            }
+        }
+
+        private void invBackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SetTopBalanceVisibility(Visibility.Collapsed);
+            SetInventoryScreenVisibility(Visibility.Collapsed);
+            SetBetScreenVisibility(Visibility.Visible);
+            invMessageTxt.Text = "";
+        }
     }
 
     public enum EndState { Lose, Push, NormalWin, DoubleDownWin, BlackJackWin }

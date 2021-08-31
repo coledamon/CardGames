@@ -50,7 +50,8 @@
                 <TextBlock x:Name="maxBetTxt" Foreground="Black" FontSize="24" HorizontalAlignment="Center" Margin="5 5" Text="" TextWrapping="Wrap"/>
             </StackPanel>
             <Button x:Name="betBtn" Click="betBtn_Click" HorizontalAlignment="Center" Foreground="Black" BorderBrush="Black" BorderThickness="2" FontSize="24" Content="Place Bet" Width="177" Height="42" Margin="0 5"/>
-            <Button x:Name="shopBtn" Click="shopBtn_Click" HorizontalAlignment="Center" Foreground="Black" BorderBrush="Black" BorderThickness="2" FontSize="24" Content="Shop" Width="177" Height="42" Margin="0 5"/>
+            <Button x:Name="shopBtn" Click="shopBtn_Click" HorizontalAlignment="Center" Foreground="Black" BorderBrush="Black" BorderThickness="2" FontSize="24" Content="Shop" Width="177" Height="42" Margin="0 25 0 5"/>
+            <Button x:Name="inventoryBtn" Click="inventoryBtn_Click" HorizontalAlignment="Center" Foreground="Black" BorderBrush="Black" BorderThickness="2" FontSize="24" Content="Inventory" Width="177" Height="42" Margin="5 5"/>
             <TextBlock x:Name="betErrorTxt" Visibility="Collapsed" Foreground="Black" FontSize="20" TextAlignment="Center" HorizontalAlignment="Center" Margin="0 10" Text="Bet error invalid, please try again." TextWrapping="Wrap" Height="58" Width="179"/>
         </StackPanel>
 
@@ -193,6 +194,103 @@
             </StackPanel>
             <Button x:Name="backBtn" Visibility="Visible" Click="backBtn_Click"  Content="Back" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" HorizontalAlignment="Center"/>
             <TextBlock x:Name="shopMessageTxt" FontSize="36" Foreground="Black" TextAlignment="Center" Text="" TextWrapping="Wrap" Width="490"></TextBlock>
+        </StackPanel>
+
+        <!--inventory screen-->
+        <StackPanel x:Name="invScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            <TextBlock x:Name="invTitle" Text="Inventory" Foreground="Black" FontSize="48" TextAlignment="Center"></TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Margin="5">
+                    <Button x:Name="invblue" Visibility="Visible" Click="color_Inv_Click" Content="Blue" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Blue">
+                        <Button.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Key="Dark">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Blue"/>
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Key="Light">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Blue"/>
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="invgray" Visibility="Visible" Click="color_Inv_Click"  Content="Gray" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Gray">
+                        <Button.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Key="Dark">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Gray"/>
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Key="Light">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Gray"/>
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="invgreen" Visibility="Visible" Click="color_Inv_Click"  Content="Green" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="ForestGreen">
+                        <Button.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Key="Dark">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="ForestGreen"/>
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Key="Light">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="ForestGreen"/>
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <Button x:Name="invpurple" Visibility="Visible" Click="color_Inv_Click"  Content="Purple" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Purple">
+                        <Button.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Key="Dark">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Purple"/>
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Key="Light">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Purple"/>
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="invred" Visibility="Visible" Click="color_Inv_Click"  Content="Red" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="red">
+                        <Button.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Key="Dark">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="red"/>
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Key="Light">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="red"/>
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Button.Resources>
+                    </Button>
+                    <Button x:Name="invyellow" Visibility="Visible" Click="color_Inv_Click"  Content="Yellow" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" Background="Yellow">
+                        <Button.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Key="Dark">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Yellow"/>
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Key="Light">
+                                        <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Yellow"/>
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <Button x:Name="invBackBtn" Visibility="Visible" Click="invBackBtn_Click" Content="Back" FontSize="36" Foreground="Black" BorderBrush="Black" BorderThickness="2" Margin="0 5" Height="65" Width="238" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="invMessageTxt" FontSize="36" Foreground="Black" TextAlignment="Center" Text="" TextWrapping="Wrap" Width="490"></TextBlock>
         </StackPanel>
 
     </Grid>
