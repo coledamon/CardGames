@@ -6,7 +6,7 @@ namespace CardGames
 {
     class MainClass
     {
-        public static void Main(string[] args)
+        public static void Start(string[] args)
         {
             
             Console.WriteLine("Homework 2 Output");
@@ -45,7 +45,6 @@ namespace CardGames
             // play a CardCountGame
             CardCountGame.PlayGame();
             BlackJackGame.PlayGame();
-            //Console.Read();
         }
     }
 }
