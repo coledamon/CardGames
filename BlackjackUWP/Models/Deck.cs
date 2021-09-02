@@ -36,19 +36,30 @@ namespace CardGames
             deckOfCards.Add(card);
         }
 
-        public void setup()
+        public void setupBlackJack()
         {
-            deckOfCards[0] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
-            deckOfCards[1] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[12].RankName, Rank.VALUES[12].Value));
-            deckOfCards[2] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
+            deckOfCards[0] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[12].RankName, Rank.VALUES[12].Value));
+            deckOfCards[1] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[6].RankName, Rank.VALUES[6].Value));
+            deckOfCards[2] = new Card(Suit.VALUES[1], new Rank(Rank.VALUES[10].RankName, Rank.VALUES[10].Value));
             deckOfCards[3] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[1].RankName, Rank.VALUES[1].Value));
             deckOfCards[4] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[8].RankName, Rank.VALUES[8].Value));
+        }
 
-
-            //deckOfCards[0] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
-            //deckOfCards[1] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[12].RankName, Rank.VALUES[12].Value));
-            //deckOfCards[2] = new Card(Suit.VALUES[1], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
-            //deckOfCards[3] = new Card(Suit.VALUES[1], new Rank(Rank.VALUES[12].RankName, Rank.VALUES[12].Value));
+        public void setupDD()
+        {
+            deckOfCards[0] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[10].RankName, Rank.VALUES[10].Value));
+            deckOfCards[1] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[8].RankName, Rank.VALUES[8].Value));
+            deckOfCards[2] = new Card(Suit.VALUES[1], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
+            deckOfCards[3] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[5].RankName, Rank.VALUES[5].Value));
+            deckOfCards[4] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[4].RankName, Rank.VALUES[4].Value));
+        }
+        public void setupPush()
+        {
+            deckOfCards[0] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[10].RankName, Rank.VALUES[10].Value));
+            deckOfCards[1] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[8].RankName, Rank.VALUES[8].Value));
+            deckOfCards[2] = new Card(Suit.VALUES[1], new Rank(Rank.VALUES[0].RankName, Rank.VALUES[0].Value));
+            deckOfCards[3] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[6].RankName, Rank.VALUES[6].Value));
+            deckOfCards[4] = new Card(Suit.VALUES[0], new Rank(Rank.VALUES[4].RankName, Rank.VALUES[4].Value));
         }
 
         public Card DealOne()

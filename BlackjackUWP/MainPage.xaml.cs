@@ -117,7 +117,9 @@ namespace BlackjackUWP
             }
             deck = new Deck(6);
 
-            //deck.setup();
+            //deck.setupBlackJack();
+            //deck.setupDD();
+            //deck.setupPush();
             //instantiate the player
             playerHand = new BlackJackHand();
             //instantiate the dealer
